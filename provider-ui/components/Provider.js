@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import dataFetch from "../lib/data-fetch";
 import ProviderLayout from "./ProviderLayout";
@@ -121,9 +121,9 @@ export default function Provider() {
 
   useEffect(() => {
     loadProvidersFromServer();
-  }, []);
+  }, [loadProvidersFromServer]);
 
-  function loadProvidersFromServer() {
+  const loadProvidersFromServer = useCallback(() => {
     dataFetch(
       "/api/providers",
       {
@@ -134,7 +134,7 @@ export default function Provider() {
         if (typeof result !== "undefined") {
           Object.keys(result).forEach((key) => {
             if (result[key].ProviderType === "remote") {
-              setSelectedProvider(selectedProvider);
+              setSelectedProvider((prev) => prev);
             }
           });
           setAvailableProviders(result);
@@ -144,7 +144,7 @@ export default function Provider() {
         console.log(`there was an error fetching providers: ${error}`);
       }
     );
-  }
+  }, []);
 
   const handleMenuItemClick = (event, provider) => {
     event.preventDefault();

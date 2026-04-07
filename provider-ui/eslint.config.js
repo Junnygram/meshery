@@ -62,7 +62,7 @@ const config = [
     rules: {
       '@next/next/no-img-element': 'off',
       'react-hooks/rules-of-hooks': 'warn',
-      'react-hooks/exhaustive-deps': 'off',
+      'react-hooks/exhaustive-deps': 'warn',
       'jsx-a11y/alt-text': 'off',
       'valid-typeof': 'warn',
       'array-bracket-spacing': ['error', 'never'],
