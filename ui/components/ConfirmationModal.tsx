@@ -1,4 +1,4 @@
-// @ts-nocheck
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -126,7 +126,32 @@ export const OctagonText = styled('div')({
   fontSize: '0.8rem',
 });
 
-function ConfirmationMsg(props) {
+export interface K8sContext {
+  id: string;
+  name: string;
+  connection_id: string;
+  [key: string]: any;
+}
+
+interface ConfirmationMsgProps {
+  open: boolean;
+  handleClose: () => void;
+  submit: {
+    deploy: () => void;
+    unDeploy: () => void;
+  };
+  title?: string;
+  validationBody?: any;
+  componentCount?: number;
+  tab?: number;
+  errors?: {
+    validationError: number;
+    deploymentError: number;
+  };
+  dryRunComponent?: React.ReactNode;
+}
+
+function ConfirmationMsg(props: ConfirmationMsgProps) {
   const {
     open,
     handleClose,
@@ -139,13 +164,13 @@ function ConfirmationMsg(props) {
     dryRunComponent,
   } = props;
 
-  const [tabVal, setTabVal] = useState(tab);
+  const [tabVal, setTabVal] = useState(tab || 0);
   const [disabled, setDisabled] = useState(true);
-  const [context, setContexts] = useState([]);
+  const [context, setContexts] = useState<K8sContext[]>([]);
   const { notify } = useNotification();
   const [triggerPing] = useLazyPingKubernetesQuery();
-  const { selectedK8sContexts } = useSelector((state) => state.ui);
-  const { k8sConfig: k8scontext } = useSelector((state) => state.ui);
+  const { selectedK8sContexts } = useSelector((state: any) => state.ui);
+  const { k8sConfig: k8scontext } = useSelector((state: any) => state.ui);
 
   let isDisabled =
     typeof selectedK8sContexts.length === 'undefined' || selectedK8sContexts.length === 0;
@@ -196,8 +221,8 @@ function ConfirmationMsg(props) {
       setContexts(k8scontext);
       return;
     }
-    let matchedCtx = [];
-    k8scontext.forEach((ctx) => {
+    const matchedCtx: K8sContext[] = [];
+    k8scontext.forEach((ctx: K8sContext) => {
       if (ctx.name.includes(search)) {
         matchedCtx.push(ctx);
       }
@@ -454,12 +479,20 @@ function ConfirmationMsg(props) {
 
 export default ConfirmationMsg;
 
-export const SelectDeploymentTarget_ = ({ k8scontext, selectedK8sContexts }) => {
+interface SelectDeploymentTargetProps {
+  k8scontext: K8sContext[];
+  selectedK8sContexts: string[];
+}
+
+export const SelectDeploymentTarget_ = ({
+  k8scontext,
+  selectedK8sContexts,
+}: SelectDeploymentTargetProps) => {
   const dispatch = useDispatch();
-  const deployableK8scontexts = useFilterK8sContexts(k8scontext, ({ operatorState }) => {
+  const deployableK8scontexts = useFilterK8sContexts(k8scontext, ({ operatorState }: any) => {
     return operatorState !== 'DISABLED';
   });
-  const [searchedContexts, setSearchedContexts] = useState(deployableK8scontexts);
+  const [searchedContexts, setSearchedContexts] = useState<K8sContext[]>(deployableK8scontexts);
   const selectedContexts = selectedK8sContexts;
 
   const searchContexts = (search) => {
@@ -467,8 +500,8 @@ export const SelectDeploymentTarget_ = ({ k8scontext, selectedK8sContexts }) => 
       setSearchedContexts(k8scontext);
       return;
     }
-    let matchedCtx = [];
-    k8scontext.forEach((ctx) => {
+    const matchedCtx: K8sContext[] = [];
+    k8scontext.forEach((ctx: K8sContext) => {
       if (ctx.name.includes(search)) {
         matchedCtx.push(ctx);
       }
