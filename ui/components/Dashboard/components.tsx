@@ -146,6 +146,8 @@ export const LayoutActionButton = ({ Icon, label, action, description, isShown }
   );
 };
 
+const DASHBOARD_WIDGET_TOOLBAR_HEIGHT = '40px';
+
 // render the widget inside the layout
 export const LayoutWidget = ({ widget, removeWidget, isEditMode }) => {
   const theme = useTheme();
@@ -160,7 +162,7 @@ export const LayoutWidget = ({ widget, removeWidget, isEditMode }) => {
           gap="1"
           display="flex"
           backgroundColor={theme.palette.background.default}
-          sx={{ mb: 1, borderRadius: '8px', p: 0.5 }}
+          sx={{ mb: 1, borderRadius: '8px', p: 0.5, height: DASHBOARD_WIDGET_TOOLBAR_HEIGHT }}
         >
           <IconButton onClick={() => removeWidget(widget.key)}>
             <DeleteIcon {...iconsProps} {...iconMedium} />
@@ -170,7 +172,12 @@ export const LayoutWidget = ({ widget, removeWidget, isEditMode }) => {
           </IconButton>
         </Box>
       )}
-      <Box sx={{ height: isEditMode ? 'calc(100% - 40px)' : '100%', overflow: 'hidden' }}>
+      <Box
+        sx={{
+          height: isEditMode ? `calc(100% - ${DASHBOARD_WIDGET_TOOLBAR_HEIGHT})` : '100%',
+          overflow: 'hidden',
+        }}
+      >
         {widget.component}
       </Box>
     </DashboardSection>
