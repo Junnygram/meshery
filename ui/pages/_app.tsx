@@ -1,4 +1,11 @@
 import { CheckCircle, Error, Info, Warning } from '@mui/icons-material';
+
+// Polyfill for Array.prototype.toSorted for Node 18 compatibility
+if (typeof Array.prototype.toSorted === 'undefined') {
+  Array.prototype.toSorted = function (compareFn) {
+    return [...this].sort(compareFn);
+  };
+}
 import { Footer, KubernetesSubscription, NavigationBar } from '../components/AppComponents';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';

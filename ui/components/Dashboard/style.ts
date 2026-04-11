@@ -3,20 +3,37 @@ import { Typography, Paper, styled, Tab, Tabs, gray, charcoal, Card } from '@sis
 
 export const DashboardSection = styled(Card)(({ theme }) => ({
   backgroundColor:
-    theme.palette.mode === 'dark' ? theme.palette.background.card : theme.palette.common.white,
-  padding: theme.spacing(2),
-  borderRadius: '4px',
+    theme.palette.mode === 'dark' ? 'rgba(30, 30, 30, 0.6)' : 'rgba(255, 255, 255, 0.8)',
+  backdropFilter: 'blur(10px)',
+  padding: theme.spacing(2.5),
+  borderRadius: '16px',
   height: '100%',
+  border:
+    theme.palette.mode === 'dark'
+      ? '1px solid rgba(255, 255, 255, 0.1)'
+      : '1px solid rgba(0, 0, 0, 0.05)',
+  boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.15)',
+  transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+  '&:hover': {
+    transform: 'translateY(-4px)',
+    boxShadow: '0 12px 40px 0 rgba(0, 0, 0, 0.25)',
+  },
 }));
 
 export const ChartSectionWithColumn = styled('div')(({ theme }) => ({
   backgroundColor:
-    theme.palette.mode === 'dark' ? theme.palette.background.card : theme.palette.common.white,
-  padding: theme.spacing(2),
-  borderRadius: '4px',
+    theme.palette.mode === 'dark' ? 'rgba(30, 30, 30, 0.6)' : 'rgba(255, 255, 255, 0.8)',
+  backdropFilter: 'blur(10px)',
+  padding: theme.spacing(2.5),
+  borderRadius: '16px',
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
+  border:
+    theme.palette.mode === 'dark'
+      ? '1px solid rgba(255, 255, 255, 0.1)'
+      : '1px solid rgba(0, 0, 0, 0.05)',
+  boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.15)',
 }));
 
 export const LoadingContainer = styled('div')({
@@ -46,12 +63,18 @@ export const ConnectClusterText = styled(Typography)({
 
 export const HoneycombRoot = styled(Card)(({ theme, isEditMode }) => ({
   backgroundColor:
-    theme.palette.mode === 'dark' ? theme.palette.background.card : theme.palette.common.white,
-  padding: theme.spacing(2),
-  borderRadius: '4px',
+    theme.palette.mode === 'dark' ? 'rgba(30, 30, 30, 0.6)' : 'rgba(255, 255, 255, 0.8)',
+  backdropFilter: 'blur(10px)',
+  padding: theme.spacing(2.5),
+  borderRadius: '16px',
   width: '100%',
   height: isEditMode ? '20rem' : '25rem',
   overflowY: 'auto',
+  border:
+    theme.palette.mode === 'dark'
+      ? '1px solid rgba(255, 255, 255, 0.1)'
+      : '1px solid rgba(0, 0, 0, 0.05)',
+  boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.15)',
 }));
 
 export const HoneycombCell = styled('li')(({ row, column }) => ({

@@ -13,6 +13,7 @@ import {
   DeleteIcon,
   DragIcon,
 } from '@sistent/sistent';
+import { DashboardSection } from './style';
 
 import { iconMedium } from 'css/icons.styles';
 
@@ -151,7 +152,7 @@ export const LayoutWidget = ({ widget, removeWidget, isEditMode }) => {
   const iconsProps = layoutIconProps(theme);
 
   return (
-    <>
+    <DashboardSection isEditMode={isEditMode}>
       {isEditMode && (
         <Box
           justifyContent="end"
@@ -159,6 +160,7 @@ export const LayoutWidget = ({ widget, removeWidget, isEditMode }) => {
           gap="1"
           display="flex"
           backgroundColor={theme.palette.background.default}
+          sx={{ mb: 1, borderRadius: '8px', p: 0.5 }}
         >
           <IconButton onClick={() => removeWidget(widget.key)}>
             <DeleteIcon {...iconsProps} {...iconMedium} />
@@ -168,7 +170,9 @@ export const LayoutWidget = ({ widget, removeWidget, isEditMode }) => {
           </IconButton>
         </Box>
       )}
-      {widget.component}
-    </>
+      <Box sx={{ height: isEditMode ? 'calc(100% - 40px)' : '100%', overflow: 'hidden' }}>
+        {widget.component}
+      </Box>
+    </DashboardSection>
   );
 };
