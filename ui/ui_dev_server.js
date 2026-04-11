@@ -1,4 +1,10 @@
 /* eslint-disable no-unused-vars */
+// Polyfill for Array.prototype.toSorted for Node 18 compatibility
+if (typeof Array.prototype.toSorted === 'undefined') {
+  Array.prototype.toSorted = function (compareFn) {
+    return [...this].sort(compareFn);
+  };
+}
 const { createServer } = require('http');
 const { parse } = require('url');
 const next = require('next');
