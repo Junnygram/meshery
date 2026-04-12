@@ -119,8 +119,17 @@ func createAKSConnection() error {
 		return err
 	}
 
-	// Build the Azure CLI syntax to fetch cluster config in kubeconfig.yaml file
-	aksCmd := exec.Command("az", "aks", "get-credentials", "--resource-group", resourceGroup, "--name", aksName, "--file", utils.ConfigPath)
+	// Create a temporary file for the kubeconfig
+	tmpFile, err := os.CreateTemp("", "meshery-aks-*.yaml")
+	if err != nil {
+		return errors.Wrap(err, "failed to create temporary file for AKS credentials")
+	}
+	tmpFilePath := tmpFile.Name()
+	_ = tmpFile.Close() // Close it so the 'az' CLI can write to it
+	defer os.Remove(tmpFilePath)
+
+	// Build the Azure CLI syntax to fetch cluster config in the temporary file
+	aksCmd := exec.Command("az", "aks", "get-credentials", "--resource-group", resourceGroup, "--name", aksName, "--file", tmpFilePath)
 	aksCmd.Stdout = os.Stdout
 	aksCmd.Stderr = os.Stderr
 	// Write AKS compatible config to the filesystem
@@ -128,10 +137,10 @@ func createAKSConnection() error {
 	if err != nil {
 		return errAzureAksGetCredentials(err)
 	}
-	utils.Log.Debugf("AKS configuration is written to: %s", utils.ConfigPath)
+	utils.Log.Debugf("AKS configuration is written to temporary file: %s", tmpFilePath)
 
-	// set the token in the chosen context
-	err = setToken()
+	// set the token in the chosen context using the temporary file
+	err = setToken(tmpFilePath)
 	if err != nil {
 		return err
 	}
@@ -163,8 +172,17 @@ func createEKSConnection() error {
 		return err
 	}
 
-	// Build the aws CLI syntax to fetch cluster config in kubeconfig.yaml file
-	eksCmd := exec.Command("aws", "eks", "--region", regionName, "update-kubeconfig", "--name", clusterName, "--kubeconfig", utils.ConfigPath)
+	// Create a temporary file for the kubeconfig
+	tmpFile, err := os.CreateTemp("", "meshery-eks-*.yaml")
+	if err != nil {
+		return errors.Wrap(err, "failed to create temporary file for EKS credentials")
+	}
+	tmpFilePath := tmpFile.Name()
+	_ = tmpFile.Close()
+	defer os.Remove(tmpFilePath)
+
+	// Build the aws CLI syntax to fetch cluster config in the temporary file
+	eksCmd := exec.Command("aws", "eks", "--region", regionName, "update-kubeconfig", "--name", clusterName, "--kubeconfig", tmpFilePath)
 	eksCmd.Stdout = os.Stdout
 	eksCmd.Stderr = os.Stderr
 	// Write EKS compatible config to the filesystem
@@ -172,10 +190,10 @@ func createEKSConnection() error {
 	if err != nil {
 		return errAwsEksGetCredentials(err)
 	}
-	utils.Log.Debugf("EKS configuration is written to: %s", utils.ConfigPath)
+	utils.Log.Debugf("EKS configuration is written to temporary file: %s", tmpFilePath)
 
 	// set the token in the chosen context
-	err = setToken()
+	err = setToken(tmpFilePath)
 	if err != nil {
 		return err
 	}
@@ -185,16 +203,25 @@ func createEKSConnection() error {
 }
 
 func createGKEConnection() error {
+	// Create a temporary file for the kubeconfig
+	tmpFile, err := os.CreateTemp("", "meshery-gke-*.yaml")
+	if err != nil {
+		return errors.Wrap(err, "failed to create temporary file for GKE credentials")
+	}
+	tmpFilePath := tmpFile.Name()
+	_ = tmpFile.Close()
+	defer os.Remove(tmpFilePath)
+
 	// TODO: move the GenerateConfigGKE logic to meshkit/client-go
 	utils.Log.Info("Configuring Meshery to access GKE...")
 	SAName := "sa-meshery-" + utils.StringWithCharset(8)
-	if err := utils.GenerateConfigGKE(utils.ConfigPath, SAName, "default"); err != nil {
+	if err := utils.GenerateConfigGKE(tmpFilePath, SAName, "default"); err != nil {
 		return errGcpGKEGetCredentials(err)
 	}
-	utils.Log.Debugf("GKE configuration is written to: %s", utils.ConfigPath)
+	utils.Log.Debugf("GKE configuration is written to temporary file: %s", tmpFilePath)
 
 	// set the token in the chosen context
-	err := setToken()
+	err = setToken(tmpFilePath)
 	if err != nil {
 		return err
 	}
@@ -218,15 +245,24 @@ func createMinikubeConnection() error {
 	if err != nil {
 		return errReadKubeConfig(err)
 	}
-	// write the flattened config to kubeconfig.yaml file
-	err = clientcmd.WriteToFile(*kubeConfig, utils.ConfigPath)
+	// Create a temporary file for the kubeconfig
+	tmpFile, err := os.CreateTemp("", "meshery-minikube-*.yaml")
+	if err != nil {
+		return errors.Wrap(err, "failed to create temporary file for Minikube credentials")
+	}
+	tmpFilePath := tmpFile.Name()
+	_ = tmpFile.Close()
+	defer os.Remove(tmpFilePath)
+
+	// write the flattened config to the temporary file
+	err = clientcmd.WriteToFile(*kubeConfig, tmpFilePath)
 	if err != nil {
 		return errWriteKubeConfig(err)
 	}
-	utils.Log.Debugf("Minikube configuration is written to: %s", utils.ConfigPath)
+	utils.Log.Debugf("Minikube configuration is written to temporary file: %s", tmpFilePath)
 
 	// set the token in the chosen context
-	err = setToken()
+	err = setToken(tmpFilePath)
 	if err != nil {
 		return err
 	}
@@ -323,9 +359,9 @@ func setContext(configFile, cname string) error {
 }
 
 // Given the token path, get the context and set the token in the chosen context
-func setToken() error {
+func setToken(configFile string) error {
 	utils.Log.Debugf("Token path: %s", utils.TokenFlag)
-	contexts, err := getContexts(utils.ConfigPath)
+	contexts, err := getContexts(configFile)
 	if err != nil {
 		return utils.ErrGetKubernetesContexts(err)
 	}
@@ -345,7 +381,7 @@ func setToken() error {
 	}
 	utils.Log.Debugf("Chosen context : %s out of the %d available contexts", chosenCtx, len(contexts))
 
-	err = setContext(utils.ConfigPath, chosenCtx)
+	err = setContext(configFile, chosenCtx)
 	if err != nil {
 		return utils.ErrSetKubernetesContext(err)
 	}

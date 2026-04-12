@@ -176,20 +176,30 @@ mesheryctl system config aks
 			}
 		}
 
-		// Build the Azure CLI syntax to fetch cluster config in kubeconfig.yaml file
-		aksCmd := exec.Command("az", "aks", "get-credentials", "--resource-group", resourceGroup, "--name", aksName, "--file", utils.ConfigPath)
+		// Create a temporary file for the kubeconfig
+		tmpFile, err := os.CreateTemp("", "meshery-aks-*.yaml")
+		if err != nil {
+			return errors.Wrap(err, "failed to create temporary file for AKS credentials")
+		}
+		tmpFilePath := tmpFile.Name()
+		_ = tmpFile.Close()
+		defer os.Remove(tmpFilePath)
+
+		// Build the Azure CLI syntax to fetch cluster config in temporary file
+		aksCmd := exec.Command("az", "aks", "get-credentials", "--resource-group", resourceGroup, "--name", aksName, "--file", tmpFilePath)
 		aksCmd.Stdout = os.Stdout
 		aksCmd.Stderr = os.Stderr
 		// Write AKS compatible config to the filesystem
 		err = aksCmd.Run()
 		if err != nil {
-			log.Fatalf("Error generating kubeconfig: %s", err.Error())
-			return err
+			return errors.Wrap(err, "Error generating kubeconfig")
 		}
-		log.Debugf("AKS configuration is written to: %s", utils.ConfigPath)
+		log.Debugf("AKS configuration is written to temporary file: %s", tmpFilePath)
 
 		// set the token in the chosen context
-		setToken()
+		if err := setToken(tmpFilePath); err != nil {
+			return err
+		}
 		return nil
 	},
 }
@@ -246,20 +256,30 @@ mesheryctl system config eks
 			}
 		}
 
-		// Build the aws CLI syntax to fetch cluster config in kubeconfig.yaml file
-		eksCmd := exec.Command("aws", "eks", "--region", regionName, "update-kubeconfig", "--name", clusterName, "--kubeconfig", utils.ConfigPath)
+		// Create a temporary file for the kubeconfig
+		tmpFile, err := os.CreateTemp("", "meshery-eks-*.yaml")
+		if err != nil {
+			return errors.Wrap(err, "failed to create temporary file for EKS credentials")
+		}
+		tmpFilePath := tmpFile.Name()
+		_ = tmpFile.Close()
+		defer os.Remove(tmpFilePath)
+
+		// Build the aws CLI syntax to fetch cluster config in temporary file
+		eksCmd := exec.Command("aws", "eks", "--region", regionName, "update-kubeconfig", "--name", clusterName, "--kubeconfig", tmpFilePath)
 		eksCmd.Stdout = os.Stdout
 		eksCmd.Stderr = os.Stderr
 		// Write EKS compatible config to the filesystem
 		err = eksCmd.Run()
 		if err != nil {
-			log.Fatalf("Error generating kubeconfig: %s", err.Error())
-			return err
+			return errors.Wrap(err, "Error generating kubeconfig")
 		}
-		log.Debugf("EKS configuration is written to: %s", utils.ConfigPath)
+		log.Debugf("EKS configuration is written to temporary file: %s", tmpFilePath)
 
 		// set the token in the chosen context
-		setToken()
+		if err := setToken(tmpFilePath); err != nil {
+			return err
+		}
 		return nil
 	},
 }
@@ -284,15 +304,26 @@ mesheryctl system config gke
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// TODO: move the GenerateConfigGKE logic to meshkit/client-go
 		log.Info("Configuring Meshery to access GKE...")
-		SAName := "sa-meshery-" + utils.StringWithCharset(8)
-		if err := utils.GenerateConfigGKE(utils.ConfigPath, SAName, "default"); err != nil {
-			log.Fatal("Error generating config:", err)
-			return err
+
+		// Create a temporary file for the kubeconfig
+		tmpFile, err := os.CreateTemp("", "meshery-gke-*.yaml")
+		if err != nil {
+			return errors.Wrap(err, "failed to create temporary file for GKE credentials")
 		}
-		log.Debugf("GKE configuration is written to: %s", utils.ConfigPath)
+		tmpFilePath := tmpFile.Name()
+		_ = tmpFile.Close()
+		defer os.Remove(tmpFilePath)
+
+		SAName := "sa-meshery-" + utils.StringWithCharset(8)
+		if err := utils.GenerateConfigGKE(tmpFilePath, SAName, "default"); err != nil {
+			return errors.Wrap(err, "Error generating config")
+		}
+		log.Debugf("GKE configuration is written to temporary file: %s", tmpFilePath)
 
 		// set the token in the chosen context
-		setToken()
+		if err := setToken(tmpFilePath); err != nil {
+			return err
+		}
 		return nil
 	},
 }
@@ -322,18 +353,28 @@ mesheryctl system config minikube
 			return err
 		}
 
-		// Minifies and flattens kubeconfig and writes it to kubeconfig.yaml
-		_, _, err := meshkitkube.ProcessConfig(utils.KubeConfig, utils.ConfigPath)
+		// Create a temporary file for the kubeconfig
+		tmpFile, err := os.CreateTemp("", "meshery-minikube-*.yaml")
 		if err != nil {
-			log.Fatal("Error writing config to file:", err)
-			return err
+			return errors.Wrap(err, "failed to create temporary file for Minikube credentials")
+		}
+		tmpFilePath := tmpFile.Name()
+		_ = tmpFile.Close()
+		defer os.Remove(tmpFilePath)
+
+		// Minifies and flattens kubeconfig and writes it to temporary file
+		_, _, err = meshkitkube.ProcessConfig(utils.KubeConfig, tmpFilePath)
+		if err != nil {
+			return errors.Wrap(err, "Error writing config to file")
 		}
 
-		log.Infof("A flattened Minikube kubeconfig file available at: %s", utils.ConfigPath)
+		log.Infof("A flattened Minikube kubeconfig file available at: %s", tmpFilePath)
 		log.Info("A new Meshery connection has been created. Run `mesheryctl connection list` for details.")
 
 		// set the token in the chosen context
-		setToken()
+		if err := setToken(tmpFilePath); err != nil {
+			return err
+		}
 		return nil
 	},
 }
@@ -391,14 +432,14 @@ func init() {
 }
 
 // Given the token path, get the context and set the token in the chosen context
-func setToken() {
+func setToken(configFile string) error {
 	log.Debugf("Token path: %s", utils.TokenFlag)
-	contexts, err := getContexts(utils.ConfigPath)
+	contexts, err := getContexts(configFile)
 	if err != nil {
-		log.Fatalf("%v", err.Error())
+		return errors.Wrap(err, "Error getting contexts")
 	}
 	if len(contexts) < 1 {
-		log.Fatalf("Error getting context: %s", fmt.Errorf("no contexts found"))
+		return errors.New("no contexts found")
 	}
 	choosenCtx := contexts[0]
 	if len(contexts) > 1 {
@@ -410,14 +451,15 @@ func setToken() {
 		fmt.Print("Enter choice (number): ")
 		_, err = fmt.Scanf("%d", &choice)
 		if err != nil {
-			log.Fatalf("Error reading input:  %s", err.Error())
+			return errors.Wrap(err, "Error reading input")
 		}
 		choosenCtx = contexts[choice-1]
 	}
 
 	log.Debugf("Chosen context : %s out of the %d available contexts", choosenCtx, len(contexts))
-	err = setContext(utils.ConfigPath, choosenCtx)
+	err = setContext(configFile, choosenCtx)
 	if err != nil {
-		log.Fatalf("Error setting context: %s", err.Error())
+		return errors.Wrap(err, "Error setting context")
 	}
+	return nil
 }
