@@ -110,7 +110,7 @@ jobs:
             setupGlobals(core, github, context, exec, io, getOctokit);
             const { main } = require('${{ runner.temp }}/gh-aw/actions/generate_aw_info.cjs');
             await main(core, context);
-      - name: Validate COPILOT_GITHUB_TOKEN secret
+      - name: Validate MESHERY_COPILOT_TOKEN secret
         id: validate-secret
         run: bash "${RUNNER_TEMP}/gh-aw/actions/validate_multi_secret.sh" MESHERY_COPILOT_TOKEN 'GitHub Copilot CLI' https://github.github.com/gh-aw/reference/engines/#github-copilot-default
         env:
@@ -661,7 +661,7 @@ jobs:
             -- /bin/bash -c 'node ${RUNNER_TEMP}/gh-aw/actions/copilot_driver.cjs /usr/local/bin/copilot --add-dir /tmp/gh-aw/ --log-level all --log-dir /tmp/gh-aw/sandbox/agent/logs/ --disable-builtin-mcps --allow-all-tools --allow-all-paths --add-dir "${GITHUB_WORKSPACE}" --prompt "$(cat /tmp/gh-aw/aw-prompts/prompt.txt)"' 2>&1 | tee -a /tmp/gh-aw/agent-stdio.log
         env:
           COPILOT_AGENT_RUNNER_TYPE: STANDALONE
-          MESHERY_COPILOT_TOKEN: ${{ secrets.MESHERY_COPILOT_TOKEN }}
+          COPILOT_GITHUB_TOKEN: ${{ secrets.MESHERY_COPILOT_TOKEN }}
           COPILOT_MODEL: ${{ vars.GH_AW_MODEL_AGENT_COPILOT || '' }}
           GH_AW_ASSETS_ALLOWED_EXTS: ".png,.jpg,.jpeg"
           GH_AW_ASSETS_BRANCH: "assets/${{ github.workflow }}"
