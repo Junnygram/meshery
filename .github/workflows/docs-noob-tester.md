@@ -9,9 +9,6 @@ permissions:
   issues: read
   pull-requests: read
 engine: copilot
-secrets:
-  MESHERY_COPILOT_TOKEN:
-    value: ${{ secrets.MESHERY_COPILOT_TOKEN }}
 timeout-minutes: 30
 tools:
   playwright:
