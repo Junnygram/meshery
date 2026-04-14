@@ -25,6 +25,7 @@ network:
   allowed:
     - defaults
     - node
+    - docs.meshery.io
 
 imports:
   - shared/mood.md
