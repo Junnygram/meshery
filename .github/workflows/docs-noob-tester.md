@@ -8,9 +8,10 @@ permissions:
   contents: read
   issues: read
   pull-requests: read
-engine:
-  id: copilot
-  secret: MESHERY_COPILOT_TOKEN
+engine: copilot
+secrets:
+  MESHERY_COPILOT_TOKEN:
+    value: ${{ secrets.MESHERY_COPILOT_TOKEN }}
 timeout-minutes: 30
 tools:
   playwright:
