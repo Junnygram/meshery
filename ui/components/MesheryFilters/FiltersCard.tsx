@@ -9,8 +9,8 @@ import {
   Link,
   Avatar,
   useTheme,
+  DeleteIcon,
 } from '@sistent/sistent';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Fullscreen from '@mui/icons-material/Fullscreen';
 import Save from '@mui/icons-material/Save';
 import Moment from 'react-moment';
@@ -28,7 +28,8 @@ import {
   CardHeaderRight,
   StyledCodeMirrorWrapper,
 } from '../MesheryPatterns/Cards.styles';
-import YAMLDialog from '../YamlDialog';
+import ResourceCard from '../shared/Card/ResourceCard';
+import YAMLDialog from '../shared/Modal/YamlDialog';
 import CloneIcon from '../../public/static/img/CloneIcon';
 import PublicIcon from '@mui/icons-material/Public';
 import TooltipButton from '../../utils/TooltipButton';
@@ -116,225 +117,197 @@ function FiltersCard_({
           updateHandler={updateHandler}
         />
       )}
-      <FlipCard
-        onClick={() => {
-          console.log(gridProps);
+      <ResourceCard
+        title={name}
+        isFlippable={true}
+        onFlip={() => {
           setGridProps(INITIAL_GRID_SIZE);
+          setShowCode(true); // Ensure code is shown when flipped
         }}
-        duration={600}
-        onShow={() =>
-          setTimeout(() => setShowCode((currentCodeVisibilty) => !currentCodeVisibilty), 500)
-        }
-      >
-        {/* FRONT PART */}
-        <>
+        headerRight={
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography variant="h6" component="div">
-                {name}
-              </Typography>
-              <div>
-                <VisibilityChipMenu
-                  value={visibility}
-                  onChange={() => {}}
-                  enabled={false}
-                  options={[
-                    [VIEW_VISIBILITY.PUBLIC, Public],
-                    [VIEW_VISIBILITY.PRIVATE, Lock],
-                  ]}
-                />
-              </div>{' '}
-            </div>
-            <div style={{ marginRight: '0.5rem' }}>
-              <div>
-                {updated_at ? (
-                  <Typography variant="caption" style={{ fontStyle: 'italic' }}>
-                    Modified On: <Moment format="LLL">{updated_at}</Moment>
-                  </Typography>
-                ) : null}
-              </div>
-            </div>
+            <VisibilityChipMenu
+              value={visibility}
+              onChange={() => {}}
+              enabled={false}
+              options={[
+                [VIEW_VISIBILITY.PUBLIC, Public],
+                [VIEW_VISIBILITY.PRIVATE, Lock],
+              ]}
+            />
           </div>
-          <BottomContainer>
-            <CatalogCardButtons>
-              {canPublishFilter && visibility !== VISIBILITY.PUBLISHED ? (
-                <TooltipButton
-                  variant="outlined"
-                  title="Publish"
-                  style={{
-                    padding: '6px 9px',
-                    borderRadius: '8px',
-                  }}
-                  onClick={(ev) => genericClickHandler(ev, handlePublishModal)}
-                  disabled={!CAN(keys.PUBLISH_WASM_FILTER.action, keys.PUBLISH_WASM_FILTER.subject)}
-                >
-                  <PublicIcon style={iconMedium} />
-                  <> Publish </>
-                </TooltipButton>
-              ) : (
-                <TooltipButton
-                  variant="outlined"
-                  title="Unpublish"
-                  style={{
-                    padding: '6px 9px',
-                    borderRadius: '8px',
-                  }}
-                  onClick={(ev) => genericClickHandler(ev, handleUnpublishModal)}
-                  disabled={
-                    !CAN(keys.UNPUBLISH_WASM_FILTER.action, keys.UNPUBLISH_WASM_FILTER.subject)
-                  }
-                >
-                  <PublicIcon style={iconMedium} />
-                  <GridBtnText> Unpublish </GridBtnText>
-                </TooltipButton>
-              )}
+        }
+        subtitle={
+          updated_at ? (
+            <Typography variant="caption" sx={{ fontStyle: 'italic' }}>
+              Modified On: <Moment format="LLL">{updated_at}</Moment>
+            </Typography>
+          ) : null
+        }
+        footer={
+          <CatalogCardButtons>
+            {canPublishFilter && visibility !== VISIBILITY.PUBLISHED ? (
               <TooltipButton
-                title="Download"
-                variant="contained"
-                color="primary"
-                onClick={handleDownload}
-                style={{
+                variant="outlined"
+                title="Publish"
+                sx={{
                   padding: '6px 9px',
                   borderRadius: '8px',
                 }}
-                disabled={
-                  !CAN(keys.DOWNLOAD_A_WASM_FILTER.action, keys.DOWNLOAD_A_WASM_FILTER.subject)
-                }
+                onClick={(ev) => genericClickHandler(ev, handlePublishModal)}
+                disabled={!CAN(keys.PUBLISH_WASM_FILTER.action, keys.PUBLISH_WASM_FILTER.subject)}
               >
-                <GetAppIcon fill={theme.palette.background.constant.white} style={iconMedium} />
-                <GridBtnText>Download</GridBtnText>
+                <PublicIcon style={iconMedium} />
+                <> Publish </>
               </TooltipButton>
-
-              {visibility === VISIBILITY.PUBLISHED ? (
-                <TooltipButton
-                  title="Clone"
-                  variant="contained"
-                  color="primary"
-                  style={{
-                    padding: '6px 9px',
-                    borderRadius: '8px',
-                  }}
-                  onClick={(ev) => genericClickHandler(ev, handleClone)}
-                  disabled={!CAN(keys.CLONE_WASM_FILTER.action, keys.CLONE_WASM_FILTER.subject)}
-                >
-                  <CloneIcon fill={theme.palette.background.constant.white} style={iconMedium} />
-                  <GridCloneBtnText>Clone</GridCloneBtnText>
-                </TooltipButton>
-              ) : null}
+            ) : (
               <TooltipButton
-                title="Filter Information"
-                variant="contained"
-                color="primary"
-                onClick={(ev) => genericClickHandler(ev, handleInfoModal)}
-                style={{
+                variant="outlined"
+                title="Unpublish"
+                sx={{
                   padding: '6px 9px',
                   borderRadius: '8px',
                 }}
+                onClick={(ev) => genericClickHandler(ev, handleUnpublishModal)}
                 disabled={
-                  !CAN(keys.DETAILS_OF_WASM_FILTER.action, keys.DETAILS_OF_WASM_FILTER.subject)
+                  !CAN(keys.UNPUBLISH_WASM_FILTER.action, keys.UNPUBLISH_WASM_FILTER.subject)
                 }
               >
-                <InfoOutlinedIcon
-                  fill={theme.palette.background.constant.white}
-                  style={iconMedium}
+                <PublicIcon style={iconMedium} />
+                <GridBtnText> Unpublish </GridBtnText>
+              </TooltipButton>
+            )}
+            <TooltipButton
+              title="Download"
+              variant="contained"
+              color="primary"
+              onClick={handleDownload}
+              sx={{
+                padding: '6px 9px',
+                borderRadius: '8px',
+              }}
+              disabled={
+                !CAN(keys.DOWNLOAD_A_WASM_FILTER.action, keys.DOWNLOAD_A_WASM_FILTER.subject)
+              }
+            >
+              <GetAppIcon fill="#fff" style={iconMedium} />
+              <GridBtnText>Download</GridBtnText>
+            </TooltipButton>
+
+            {visibility === VISIBILITY.PUBLISHED ? (
+              <TooltipButton
+                title="Clone"
+                variant="contained"
+                color="primary"
+                sx={{
+                  padding: '6px 9px',
+                  borderRadius: '8px',
+                }}
+                onClick={(ev) => genericClickHandler(ev, handleClone)}
+                disabled={!CAN(keys.CLONE_WASM_FILTER.action, keys.CLONE_WASM_FILTER.subject)}
+              >
+                <CloneIcon fill="#fff" style={iconMedium} />
+                <GridCloneBtnText>Clone</GridCloneBtnText>
+              </TooltipButton>
+            ) : null}
+            <TooltipButton
+              title="Filter Information"
+              variant="contained"
+              color="primary"
+              onClick={(ev) => genericClickHandler(ev, handleInfoModal)}
+              sx={{
+                padding: '6px 9px',
+                borderRadius: '8px',
+              }}
+              disabled={
+                !CAN(keys.DETAILS_OF_WASM_FILTER.action, keys.DETAILS_OF_WASM_FILTER.subject)
+              }
+            >
+              <InfoOutlinedIcon fill="#fff" style={iconMedium} />
+              <GridBtnText> Info </GridBtnText>
+            </TooltipButton>
+          </CatalogCardButtons>
+        }
+        backHeaderRight={
+          <CardHeaderRight>
+            <Link href={`${MESHERY_CLOUD_PROD}/user/${ownerId}`} target="_blank">
+              <Avatar alt="profile-avatar" src={owner?.avatar_url} />
+            </Link>
+            <Tooltip title="Enter Fullscreen" arrow interactive placement="top">
+              <IconButton
+                onClick={(ev) =>
+                  genericClickHandler(ev, () => {
+                    toggleFullScreen();
+                  })
+                }
+              >
+                {fullScreen ? <FullscreenExit /> : <Fullscreen />}
+              </IconButton>
+            </Tooltip>
+          </CardHeaderRight>
+        }
+        backSubtitle={
+          created_at ? (
+            <Typography variant="caption" sx={{ fontStyle: 'italic' }}>
+              Created at: <Moment format="LLL">{created_at}</Moment>
+            </Typography>
+          ) : null
+        }
+        backFooter={
+          <UpdateDeleteButtons>
+            <Tooltip title="Save" arrow interactive placement="bottom">
+              <IconButton
+                disabled={!CAN(keys.EDIT_WASM_FILTER.action, keys.EDIT_WASM_FILTER.subject)}
+                onClick={(ev) => genericClickHandler(ev, updateHandler)}
+              >
+                <Save fill="#fff" />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="Delete" arrow interactive placement="bottom">
+              <IconButton
+                disabled={!CAN(keys.DELETE_WASM_FILTER.action, keys.DELETE_WASM_FILTER.subject)}
+                onClick={(ev) => genericClickHandler(ev, deleteHandler)}
+              >
+                <DeleteIcon fill="#fff" />
+              </IconButton>
+            </Tooltip>
+          </UpdateDeleteButtons>
+        }
+        backContent={
+          <Box
+            sx={{ flexGrow: 1 }}
+            onClick={(ev) => genericClickHandler(ev, () => {})}
+            data-testid="filter-card-back"
+          >
+            <Divider sx={{ mb: 1 }} light />
+
+            {catalogContentKeys.length === 0 ? (
+              <StyledCodeMirrorWrapper fullScreen={fullScreen}>
+                <CodeMirror
+                  value={showCode && filter_resource}
+                  options={{
+                    theme: 'material',
+                    lineNumbers: true,
+                    lineWrapping: true,
+                    gutters: ['CodeMirror-lint-markers'],
+                    lint: true,
+                    mode: 'text/x-yaml',
+                  }}
+                  onChange={(_, data, val) => setYaml(val)}
                 />
-                <GridBtnText> Info </GridBtnText>
-              </TooltipButton>
-            </CatalogCardButtons>
-          </BottomContainer>
-        </>
-
-        {/* BACK PART */}
-        <>
-          <CardBackGrid container spacing={1} alignContent="space-between" alignItems="center">
-            <YamlDialogTitleGrid item xs={12}>
-              <Typography variant="h6">{name}</Typography>
-              <CardHeaderRight>
-                <Link href={`${MESHERY_CLOUD_PROD}/user/${ownerId}`} target="_blank">
-                  <Avatar alt="profile-avatar" src={owner?.avatar_url} />
-                </Link>
-                <Tooltip title="Enter Fullscreen" arrow interactive placement="top">
-                  <IconButton
-                    onClick={(ev) =>
-                      genericClickHandler(ev, () => {
-                        {
-                          toggleFullScreen();
-                        }
-                      })
-                    }
-                  >
-                    {fullScreen ? <FullscreenExit /> : <Fullscreen />}
-                  </IconButton>
-                </Tooltip>
-              </CardHeaderRight>
-            </YamlDialogTitleGrid>
-            <Grid2 size={{ xs: 12 }} onClick={(ev) => genericClickHandler(ev, () => {})}>
-              <Divider variant="fullWidth" light />
-
-              {catalogContentKeys.length === 0 ? (
-                <StyledCodeMirrorWrapper fullScreen={fullScreen}>
-                  <CodeMirror
-                    value={showCode && filter_resource}
-                    options={{
-                      theme: 'material',
-                      lineNumbers: true,
-                      lineWrapping: true,
-                      gutters: ['CodeMirror-lint-markers'],
-                      // @ts-ignore
-                      lint: true,
-                      mode: 'text/x-yaml',
-                    }}
-                    onChange={(_, data, val) => setYaml(val)}
-                  />
-                </StyledCodeMirrorWrapper>
-              ) : (
-                catalogContentKeys.map((title, index) => (
-                  <>
-                    <Typography variant="h6">{title}</Typography>
-                    <Typography variant="body2">{catalogContentValues[index]}</Typography>
-                  </>
-                ))
-              )}
-            </Grid2>
-
-            <Grid2 size={{ xs: 8 }}>
-              <div style={{ marginRight: '0.5rem' }}>
-                <div>
-                  {created_at ? (
-                    <Typography variant="caption" style={{ fontStyle: 'italic' }}>
-                      Created at: <Moment format="LLL">{created_at}</Moment>
-                    </Typography>
-                  ) : null}
-                </div>
-              </div>
-            </Grid2>
-
-            <Grid2 size={{ xs: 12 }}>
-              <UpdateDeleteButtons>
-                {/* Save button */}
-                <Tooltip title="Save" arrow interactive placement="bottom">
-                  <IconButton
-                    disabled={!CAN(keys.EDIT_WASM_FILTER.action, keys.EDIT_WASM_FILTER.subject)}
-                    onClick={(ev) => genericClickHandler(ev, updateHandler)}
-                  >
-                    <Save fill={theme.palette.icon.default} />
-                  </IconButton>
-                </Tooltip>
-
-                {/* Delete Button */}
-                <Tooltip title="Delete" arrow interactive placement="bottom">
-                  <IconButton
-                    disabled={!CAN(keys.DELETE_WASM_FILTER.action, keys.DELETE_WASM_FILTER.subject)}
-                    onClick={(ev) => genericClickHandler(ev, deleteHandler)}
-                  >
-                    <DeleteIcon fill={theme.palette.icon.default} />
-                  </IconButton>
-                </Tooltip>
-              </UpdateDeleteButtons>
-            </Grid2>
-          </CardBackGrid>
-        </>
-      </FlipCard>
+              </StyledCodeMirrorWrapper>
+            ) : (
+              catalogContentKeys.map((title, index) => (
+                <Box key={index} mb={1}>
+                  <Typography variant="h6">{title}</Typography>
+                  <Typography variant="body2">{catalogContentValues[index]}</Typography>
+                </Box>
+              ))
+            )}
+          </Box>
+        }
+      />
     </>
   );
 }

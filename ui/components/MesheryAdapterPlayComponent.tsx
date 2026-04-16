@@ -46,9 +46,9 @@ import {
 import fetchAvailableAddons from './graphql/queries/AddonsStatusQuery';
 import fetchAvailableNamespaces from './graphql/queries/NamespaceQuery';
 import MesheryMetrics from './Performance/MesheryMetrics';
-import MesheryResultDialog from './MesheryResultDialog';
+import MesheryResultModal from './shared/Modal/MesheryResultModal';
 import ReactSelectWrapper from './ReactSelectWrapper';
-import ConfirmationMsg from './ConfirmationModal';
+import ConfirmationMsg from './shared/Lifecycle/DeploymentModal';
 import { iconMedium } from '../css/icons.styles';
 import { ACTIONS } from '../utils/Enum';
 import { getModelByName } from '../api/meshmodel';
@@ -1139,7 +1139,7 @@ const MesheryAdapterPlayComponent: React.FC<MesheryAdapterPlayComponentProps> = 
   return (
     <NoSsr>
       {selectedRowData && selectedRowData !== null && Object.keys(selectedRowData).length > 0 && (
-        <MesheryResultDialog rowData={selectedRowData} close={resetSelectedRowData} />
+        <MesheryResultModal rowData={selectedRowData} close={resetSelectedRowData} />
       )}
       <React.Fragment>
         <AdapterSmWrapper>

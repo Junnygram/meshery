@@ -27,7 +27,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import MesheryChart from '../MesheryChart';
-import LoadTestTimerDialog from '../load-test-timer-dialog';
+import LoadTestTimer from './LoadTestTimer';
 import GrafanaCustomCharts from '../telemetry/grafana/GrafanaCustomCharts';
 import { durationOptions } from '../../lib/prePopulatedOptions';
 import fetchControlPlanes from '../graphql/queries/ControlPlanesQuery';
@@ -1266,7 +1266,7 @@ const MesheryPerformanceComponent_ = (props) => {
 
             {timerDialogOpenState ? (
               <CenterTimer>
-                <LoadTestTimerDialog
+                <LoadTestTimer
                   open={timerDialogOpenState}
                   t={tState}
                   onClose={handleTimerDialogClose}

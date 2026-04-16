@@ -7,13 +7,13 @@ import {
 } from '@paciolan/remote-component';
 import MesheryPerformanceComponent from './Performance';
 import PatternServiceFormCore from './MesheryMeshInterface/PatternServiceFormCore';
-import InfoModal from '../components/General/Modals/Information/InfoModal';
+import ExportDesignModal from '../designs/export/ExportDesignModal';
+import InfoModal from './shared/Modal/ResourceDetailsModal';
 import ConfigurationSubscription from '../components/graphql/subscriptions/ConfigurationSubscription';
 import _PromptComponent from './PromptComponent';
 import { CapabilitiesRegistry } from '../utils/disabledComponents';
 import { useNotification } from '../utils/hooks/useNotification';
-import Modal from './General/Modals/Modal';
-import ExportModal from './ExportModal';
+import Modal from './shared/Modal/Modal';
 import { FormatStructuredData } from './DataFormatter';
 import { useFilterK8sContexts } from './hooks/useKubernetesHook';
 import { useDynamicComponent } from '@/utils/context/dynamicContext';
@@ -28,9 +28,9 @@ import RJSFForm from './MesheryMeshInterface/PatternService/RJSF';
 import { DynamicFullScreenLoader } from './LoadingComponents/DynamicFullscreenLoader';
 import Troubleshoot from './TroubleshootingComponent';
 import TypingFilter from './TypingFilter';
-import CreateModelModal from './Settings/Registry/CreateModelModal';
-import ImportModelModal from './Settings/Registry/ImportModelModal';
-import { ViewInfoModal } from './ViewInfoModal';
+import CreateModelModal from './registry/CreateModelModal';
+import ImportModelModal from './registry/ImportModelModal';
+import { ViewInfoModal } from './workspaces/ViewInfoModal';
 import { selectK8sConfig, selectSelectedK8sClusters } from '@/store/slices/mesheryUi';
 import { useSelector } from 'react-redux';
 import { store } from '../store';
@@ -101,7 +101,7 @@ function NavigatorExtension({ url }) {
           },
           InfoModal,
           ViewInfoModal,
-          ExportModal,
+          ExportDesignModal: ExportDesignModal,
           GenericRJSFModal: Modal,
           _PromptComponent,
           capabilitiesRegistry,

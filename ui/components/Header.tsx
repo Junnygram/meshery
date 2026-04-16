@@ -16,7 +16,7 @@ import { useNotification } from '../utils/hooks/useNotification';
 import useKubernetesHook, { useControllerStatus } from './hooks/useKubernetesHook';
 import { formatToTitleCase } from '../utils/utils';
 import SettingsIcon from '@mui/icons-material/Settings';
-import RegistryModal from './Registry/RegistryModal';
+import RegistryModal from './registry/RegistryModal';
 
 import {
   Checkbox,
@@ -37,9 +37,9 @@ import {
 } from '@sistent/sistent';
 import { CanShow } from '@/utils/can';
 import { keys } from '@/utils/permission_constants';
-import OrganizationAndWorkSpaceSwitcher from './SpacesSwitcher/SpaceSwitcher';
+import OrganizationAndWorkSpaceSwitcher from './workspaces/switcher/SpaceSwitcher';
 import HeaderMenu from './HeaderMenu';
-import ConnectionModal from './General/Modals/ConnectionModal';
+import ConnectionFormModal from './connections/ConnectionFormModal';
 import MesherySettingsEnvButtons from './MesherySettingsEnvButtons';
 import {
   HeaderAppBar,
@@ -412,7 +412,7 @@ function K8sContextMenu({
         </Slide>
       </div>
       <_PromptComponent ref={deleteCtxtRef} />
-      <ConnectionModal
+      <ConnectionFormModal
         isOpenModal={isConnectionOpenModal}
         setIsOpenModal={setIsConnectionOpenModal}
         meshsyncControllerState={meshsyncControllerState}

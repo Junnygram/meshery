@@ -1,12 +1,13 @@
 import * as React from 'react';
-import TroubleshootingModal from './TroubleshootingModalComponent';
-import { RJSFModalWrapper } from './General/Modals/Modal';
+import TroubleshootingModal from './shared/Troubleshooting/TroubleshootingModal';
 import {
-  Modal,
+  Modal as SistentModal,
   helpAndSupportModalSchema,
   helpAndSupportModalUiSchema,
   Button,
 } from '@sistent/sistent';
+import Modal from './shared/Modal/Modal';
+import { RJSFModalWrapper } from './shared/Modal/RJSFModalWrapper';
 import { useNotification } from '@/utils/hooks/useNotification';
 import { useGetLoggedInUserQuery } from '@/rtk-query/user';
 import SupportIcon from '@/assets/icons/support';

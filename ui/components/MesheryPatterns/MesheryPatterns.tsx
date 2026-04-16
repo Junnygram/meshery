@@ -46,7 +46,7 @@ import LoadingScreen from '../LoadingComponents/LoadingComponent';
 import { FILE_OPS, MesheryPatternsCatalog, VISIBILITY } from '../../utils/Enum';
 import CloneIcon from '../../public/static/img/CloneIcon';
 import { useRouter } from 'next/router';
-import { RJSFModalWrapper } from '../General/Modals/Modal';
+import { RJSFModalWrapper } from '../shared/Modal/RJSFModalWrapper';
 import downloadContent from '../../utils/fileDownloader';
 import ConfigurationSubscription from '../graphql/subscriptions/ConfigurationSubscription';
 import Pattern from '../../public/static/img/drawer-icons/pattern_svg';
@@ -58,13 +58,15 @@ import { modifyRJSFSchema } from '../../utils/utils';
 import { Edit as EditIcon } from '@mui/icons-material';
 import { updateVisibleColumns } from '../../utils/responsive-column';
 import { useWindowDimensions } from '../../utils/dimension';
+import PublishDesignModal from '../designs/PublishDesignModal';
+import ImportDesignModal from '../designs/ImportDesignModal';
 import InfoModal from '../General/Modals/Information/InfoModal';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { DefaultTableCell, SortableTableCell } from '../connections/common';
 import DefaultError from '../General/error-404/index';
 import CAN from '@/utils/can';
 import { keys } from '@/utils/permission_constants';
-import ExportModal from '../ExportModal';
+import ExportDesignModal from '../designs/export/ExportDesignModal';
 import { useModal, Modal as SistentModal, ModalBody } from '@sistent/sistent';
 import PatternIcon from '@/assets/icons/Pattern';
 import DryRunIcon from '@/assets/icons/DryRunIcon';
@@ -1537,7 +1539,7 @@ function MesheryPatterns({
                 />
                 {/* </StyledRow> */}
 
-                <ExportModal
+                <ExportDesignModal
                   downloadModal={downloadModal}
                   handleDownloadDialogClose={handleDownloadDialogClose}
                   handleDesignDownload={handleDownload}
@@ -1593,7 +1595,7 @@ function MesheryPatterns({
             {canPublishPattern &&
               publishModal.open &&
               CAN(keys.PUBLISH_DESIGN.action, keys.PUBLISH_DESIGN.subject) && (
-                <PublishModal
+                <PublishDesignModal
                   publishFormSchema={publishSchema}
                   handleClose={handlePublishModalClose}
                   title={publishModal.pattern?.name}
@@ -1615,65 +1617,6 @@ function MesheryPatterns({
     </>
   );
 }
-
-export const ImportDesignModal = React.memo((props) => {
-  const { handleClose, handleImportDesign } = props;
-
-  return (
-    <>
-      <>
-        <SistentModal
-          open={true}
-          closeModal={handleClose}
-          headerIcon={
-            <Pattern fill="#fff" style={{ height: '24px', width: '24px', fonSize: '1.45rem' }} />
-          }
-          maxWidth="sm"
-          title="Import Design"
-          data-testid="import-design-modal"
-        >
-          <RJSFModalWrapper
-            schema={importDesignSchema}
-            uiSchema={importDesignUiSchema}
-            handleSubmit={handleImportDesign}
-            submitBtnText="Import"
-            handleClose={handleClose}
-          />
-        </SistentModal>
-      </>
-    </>
-  );
-});
-
-const PublishModal = React.memo((props) => {
-  const { handleClose, handleSubmit, title } = props;
-
-  return (
-    <>
-      <>
-        <SistentModal
-          open={true}
-          closeModal={handleClose}
-          aria-label="catalog publish"
-          title={title}
-          headerIcon={
-            <Pattern fill="#fff" style={{ height: '24px', width: '24px', fonSize: '1.45rem' }} />
-          }
-          maxWidth="sm"
-        >
-          <RJSFModalWrapper
-            schema={publishCatalogItemSchema}
-            uiSchema={publishCatalogItemUiSchema}
-            handleSubmit={handleSubmit}
-            submitBtnText="Submit for Approval"
-            handleClose={handleClose}
-            helpText="Upon submitting your catalog item, an approval flow will be initiated.[Learn more](https://docs.meshery.io/concepts/catalog)"
-          />
-        </SistentModal>
-      </>
-    </>
-  );
-});
 
 // @ts-ignore
 export default MesheryPatterns;

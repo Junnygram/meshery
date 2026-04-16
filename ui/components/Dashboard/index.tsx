@@ -37,7 +37,7 @@ import getWidgets from './widgets/getWidgets';
 import { tabsClasses } from '@mui/material';
 import { useSelector } from 'react-redux';
 import useUnsavedChanges from './useUnsavedChanges';
-import UnsavedChangesModal from './UnsavedChangesModal';
+import UnsavedChangesModal from '../shared/Modal/UnsavedChangesModal';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
