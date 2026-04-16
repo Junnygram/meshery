@@ -146,15 +146,11 @@ module.exports = [
       // ---------------------------------------------------------------------
 
       // Ban Material UI and legacy theme imports. @sistent/sistent is the
-      // only UI kit; @/theme is the approved Phase 1 theme entry point.
+      // only UI kit; @/theme is the only theme entry point.
       'no-restricted-imports': [
         'warn',
         {
           paths: [
-            {
-              name: '@/theme/index',
-              message: 'Use @/theme; do not deep-import the local theme entry point.',
-            },
             {
               name: '@mui/material',
               message: 'Use @sistent/sistent instead.',
@@ -179,19 +175,20 @@ module.exports = [
             },
             {
               name: '@/themes',
-              message: 'Use @/theme, the approved Phase 1 theme entry point.',
+              message: 'Use @/theme (colors come from theme.palette.*).',
             },
             {
               name: '@/themes/app',
-              message: 'Use @/theme and theme.palette.* instead of the legacy Colors object.',
+              message:
+                'Use theme.palette.* (light/dark-aware) instead of the legacy Colors object.',
             },
             {
               name: '@/themes/index',
-              message: 'Use @/theme and theme.palette.* instead of NOTIFICATIONCOLORS.',
+              message: 'Use theme.palette.* (light/dark-aware) instead of NOTIFICATIONCOLORS.',
             },
             {
               name: '@/constants/colors',
-              message: 'Use @/theme and theme.palette.* instead of legacy color constants.',
+              message: 'Use theme.palette.* instead of legacy color constants.',
             },
           ],
           patterns: [

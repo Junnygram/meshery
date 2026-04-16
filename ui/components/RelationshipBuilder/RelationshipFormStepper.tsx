@@ -1,8 +1,6 @@
 import React from 'react';
 import {
   ModalFooter,
-  useStepper,
-  CustomizedStepper,
   ModalBody,
   Box,
   TextField,
@@ -13,6 +11,7 @@ import {
   Grid2,
   MenuItem,
 } from '@sistent/sistent';
+import { useStepper, CustomizedStepper } from '../shared/Stepper';
 import { GlobalStyles } from '@mui/material';
 import { styled } from '@sistent/sistent';
 import { RelationshipDefinitionV1Beta2OpenApiSchema } from '@meshery/schemas';

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { NoSsr, Box } from '@sistent/sistent';
 import { connect, useDispatch } from 'react-redux';
 import Head from 'next/head';
-import { EnvironmentComponent } from '../../components/Lifecycle';
+import EnvironmentsComponent from '@/components/environments';
 import { updatePage } from '@/store/slices/mesheryUi';
 import { getPath } from 'lib/path';
 
@@ -18,7 +18,7 @@ const Environments = () => {
         <title>Environments | Meshery</title>
       </Head>
       <Box sx={{ margin: 'auto', overflow: 'hidden' }}>
-        <EnvironmentComponent />
+        <EnvironmentsComponent />
       </Box>
     </NoSsr>
   );

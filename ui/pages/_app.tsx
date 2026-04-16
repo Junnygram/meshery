@@ -27,7 +27,7 @@ import './styles/AnimatedFilter.css';
 import './styles/AnimatedMeshery.css';
 import './styles/AnimatedMeshPattern.css';
 import './styles/AnimatedMeshSync.css';
-import PlaygroundMeshDeploy from './extension/AccessMesheryModal';
+import AccessMesheryModal from '../components/layout/AccessMesheryModal';
 import Router from 'next/router';
 import { RelayEnvironmentProvider } from 'react-relay';
 import { createRelayEnvironment } from '../lib/relayEnvironment';
@@ -41,8 +41,7 @@ import { useLazyGetCredentialByIdQuery } from '@/rtk-query/credentials';
 import { DynamicComponentProvider } from '@/utils/context/dynamicContext';
 import { formatToTitleCase } from '@/utils/utils';
 import { useThemePreference } from '@/themes/hooks';
-import { CssBaseline, NoSsr, SistentThemeProvider } from '@/theme';
-import { ErrorBoundary } from '@sistent/sistent';
+import { ErrorBoundary, SistentThemeProvider, CssBaseline, NoSsr } from '@sistent/sistent';
 import { LoadSessionGuard } from '@/rtk-query/ability';
 import CustomErrorFallback from '@/components/General/ErrorBoundary';
 import { normalizeLoadTestPrefs } from '../lib/load-test-prefs';
@@ -548,7 +547,7 @@ const MesheryApp = ({ Component, pageProps, relayEnvironment, emotionCache }) =>
                           </SnackbarProvider>
                         </StyledAppContent>
                       </StyledRoot>
-                      <PlaygroundMeshDeploy
+                      <AccessMesheryModal
                         closeForm={() => setState((prevState) => ({ ...prevState, isOpen: false }))}
                         isOpen={state.isOpen}
                       />

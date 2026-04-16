@@ -21,7 +21,7 @@ import { useMeshModelComponents } from '../../../utils/hooks/useMeshModelCompone
 import { getWebAdress } from '../../../utils/webApis';
 import CodeEditor from '../CodeEditor';
 import LazyComponentForm from './LazyComponentForm';
-import useDesignLifecycle from './hooks/useDesignLifecycle';
+import useDesignLifecycle from '@/components/environments';
 import { useRouter } from 'next/router';
 import { ArrowBack } from '@mui/icons-material';
 import { SaveAs as SaveAsIcon } from '@mui/icons-material';

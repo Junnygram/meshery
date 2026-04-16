@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
 import {
-  ModalBody,
   useTheme,
   List,
   IconButton,
@@ -12,7 +11,6 @@ import {
   FileIcon,
   useMediaQuery,
   CustomTooltip,
-  Modal,
   styled,
   Drawer,
   DatabaseIcon,
@@ -22,8 +20,7 @@ import ConnectionIcon from '@/assets/icons/Connection';
 import ComponentIcon from '@/assets/icons/Component';
 import MeshModelComponent from '../Settings/Registry/MeshModelComponent';
 import { iconMedium, iconSmall } from 'css/icons.styles';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { ChevronLeft, ChevronRight } from '../icons';
 import { MODELS, COMPONENTS, RELATIONSHIPS, REGISTRANTS } from '../../constants/navigator';
 import { RegistryModalContext } from '@/utils/context/RegistryModalContextProvider';
 import {
@@ -33,6 +30,7 @@ import {
   useGetRegistrantsQuery,
 } from '@/rtk-query/meshModel';
 import { removeDuplicateVersions } from '../Settings/Registry/helper';
+import Modal from '../shared/Modal/Modal';
 
 const DRAWER_WIDTH = 250;
 
@@ -110,30 +108,6 @@ const StyledMainContent = styled(Box)(() => ({
   overflow: 'auto',
   display: 'flex',
   flexDirection: 'column',
-}));
-
-const StyledModal = styled(Modal)(({ theme }) => ({
-  zIndex: '1500',
-  '& .MuiDialog-paperFullScreen': {
-    margin: '0',
-  },
-
-  '& .MuiDialog-paperFullWidth': {
-    width: '90%',
-    height: '80%',
-  },
-
-  '& .MuiDialog-paper': {
-    maxWidth: '100%',
-
-    [theme.breakpoints.down('md')]: {
-      margin: '0',
-      width: '100%',
-      maxWidth: '100%',
-      height: '100%',
-      maxHeight: '100%',
-    },
-  },
 }));
 
 const getNavItems = (theme, counts) => {
@@ -261,7 +235,6 @@ export const Navigation = ({ setHeaderInfo }) => {
     updateHeaderInfo(id);
   };
 
-  // Set initial header info on component mount
   useEffect(() => {
     updateHeaderInfo(selectedId);
   }, [selectedId, theme]);
@@ -283,7 +256,7 @@ export const Navigation = ({ setHeaderInfo }) => {
 
         <DrawerHeader open={open}>
           <IconButton onClick={handleDrawerToggle}>
-            {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {open ? <ChevronLeft /> : <ChevronRight />}
           </IconButton>
         </DrawerHeader>
       </StyledDrawer>
@@ -312,17 +285,17 @@ const RegistryModal = () => {
   });
 
   return (
-    <StyledModal
+    <Modal
       closeModal={registryContext.closeModal}
       open={registryContext.open}
       headerIcon={headerInfo.icon}
       title={headerInfo.title}
-      isFullScreenModeAllowed={!isSmallScreen}
+      fullScreen={!isSmallScreen}
     >
-      <ModalBody style={{ height: '100%', padding: '0' }}>
+      <Box sx={{ height: '100%', padding: '0' }}>
         {registryContext.open && <Navigation setHeaderInfo={setHeaderInfo} />}
-      </ModalBody>
-    </StyledModal>
+      </Box>
+    </Modal>
   );
 };
 
