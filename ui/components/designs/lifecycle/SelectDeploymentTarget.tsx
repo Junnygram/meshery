@@ -14,7 +14,7 @@ import {
   CustomTooltip,
 } from '@sistent/sistent';
 import { Loading, StepHeading } from './common';
-import { K8sContextConnectionChip } from '../Header';
+import { K8sContextConnectionChip } from '@/components/Header';
 import { createContext } from 'react';
 import { useContext } from 'react';
 import {

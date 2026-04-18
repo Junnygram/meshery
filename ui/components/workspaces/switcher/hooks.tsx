@@ -1,15 +1,15 @@
-import { APP_MODE, RESOURCE_TYPE } from '../../utils/Enum';
-import { isInOperatorMode, JsonParse } from '../../utils/utils';
+import { APP_MODE, RESOURCE_TYPE } from '@/utils/Enum';
+import { isInOperatorMode, JsonParse } from '@/utils/utils';
 import _ from 'lodash';
 import { useEffect, useRef } from 'react';
-import { useDeletePatternFileMutation } from '../../rtk-query/design';
-import { useDeleteViewMutation } from '../../rtk-query/view';
-import { useNotification } from '../../utils/hooks/useNotification';
+import { useDeletePatternFileMutation } from '@/rtk-query/design';
+import { useDeleteViewMutation } from '@/rtk-query/view';
+import { useNotification } from '@/utils/hooks/useNotification';
 import { DesignIcon, PROMPT_VARIANTS, useTheme, ViewIcon } from '@sistent/sistent';
-import { EVENT_TYPES } from 'lib/event-types';
-import { iconMedium } from '../../css/icons.styles';
+import { EVENT_TYPES } from '@/lib/event-types';
+import { iconMedium } from '@/css/icons.styles';
 import { updateProgress } from '@/store/slices/mesheryUi';
-import downloadContent, { downloadFileFromContent } from '../../utils/fileDownloader';
+import downloadContent, { downloadFileFromContent } from '@/utils/fileDownloader';
 
 const useInfiniteScroll = ({ isLoading, hasMore, onLoadMore }) => {
   const loadingRef = useRef(null);
@@ -115,11 +115,7 @@ export const getModelNamesBasedOnDisplayNames = (meshModels, displayNames) => {
   return compatibilityStore;
 };
 
-export const handleUpdatePatternVisibility = async ({
-  value,
-  updatePatterns,
-  selectedResource,
-}) => {
+export const handleUpdateDesignVisibility = async ({ value, updatePatterns, selectedResource }) => {
   const res = await updatePatterns({
     updateBody: {
       id: selectedResource?.id,

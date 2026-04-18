@@ -8,10 +8,12 @@ import {
   styled,
   useTheme,
   Box,
+  getFormatDate,
 } from '@sistent/sistent';
 import _ from 'lodash';
 import Modal from '../shared/Modal/Modal';
-import { ViewIcon, Lock, Public } from '../icons';
+import { ViewIcon } from '@sistent/sistent';
+import { Lock, Public } from '@/components/icons';
 import { useGetViewQuery, useUpdateViewVisibilityMutation } from '@/rtk-query/view';
 import { useGetLoggedInUserQuery, useGetUserProfileSummaryByIdQuery } from '@/rtk-query/user';
 import { iconLarge } from '../../css/icons.styles';
@@ -21,7 +23,7 @@ import { MDEditor } from '../Markdown';
 import { useNotification } from '@/utils/hooks/useNotification';
 import { EVENT_TYPES } from 'lib/event-types';
 import { ModalButtonSecondary, ModalButtonPrimary } from '@sistent/sistent';
-import { handleUpdateViewVisibility, viewPath } from '../SpacesSwitcher/hooks';
+import { handleUpdateViewVisibility, viewPath } from './switcher/hooks';
 import rehypeSanitize from 'rehype-sanitize';
 import { VIEW_VISIBILITY } from '@/utils/Enum';
 import ProviderStoreWrapper from '@/store/ProviderStoreWrapper';
@@ -171,11 +173,11 @@ const ViewInfoModal_ = ({ open, closeModal, view_id, view_name, metadata, refetc
 
             <Row justifyContent="start">
               <Title>Created: </Title>
-              <Typography>{getFullFormattedTime(view?.created_at)}</Typography>
+              <Typography>{getFormatDate(view?.created_at)}</Typography>
             </Row>
             <Row justifyContent="start">
               <Title>Updated: </Title>
-              <Typography>{getFullFormattedTime(view?.updated_at)}</Typography>
+              <Typography>{getFormatDate(view?.updated_at)}</Typography>
             </Row>
           </div>
         )}

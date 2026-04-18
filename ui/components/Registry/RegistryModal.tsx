@@ -18,9 +18,9 @@ import {
 } from '@sistent/sistent';
 import ConnectionIcon from '@/assets/icons/Connection';
 import ComponentIcon from '@/assets/icons/Component';
-import MeshModelComponent from '../Settings/Registry/MeshModelComponent';
-import { iconMedium, iconSmall } from 'css/icons.styles';
-import { ChevronLeft, ChevronRight } from '../icons';
+import MeshModelComponent from '@/components/Settings/Registry/MeshModelComponent';
+import { iconMedium, iconSmall } from '@/css/icons.styles';
+import { ChevronLeft, ChevronRight } from '@/components/icons';
 import { MODELS, COMPONENTS, RELATIONSHIPS, REGISTRANTS } from '../../constants/navigator';
 import { RegistryModalContext } from '@/utils/context/RegistryModalContextProvider';
 import {
@@ -29,8 +29,8 @@ import {
   useGetRelationshipsQuery,
   useGetRegistrantsQuery,
 } from '@/rtk-query/meshModel';
-import { removeDuplicateVersions } from '../Settings/Registry/helper';
-import Modal from '../shared/Modal/Modal';
+import { removeDuplicateVersions } from '@/components/Settings/Registry/helper';
+import Modal from '@/components/shared/Modal/Modal';
 
 const DRAWER_WIDTH = 250;
 

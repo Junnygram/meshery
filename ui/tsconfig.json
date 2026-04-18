@@ -16,7 +16,10 @@
       "@/theme": ["theme/index"],
       "@/theme/*": ["theme/*"],
       "@/themes/*": ["themes/*"],
-      "@/store/*": ["store/*"]
+      "@/store/*": ["store/*"],
+      "@/css/*": ["css/*"],
+      "@/machines/*": ["machines/*"],
+      "@/lib/*": ["lib/*"]
     },
     // Environment Settings
     // See also https://aka.ms/tsconfig/module

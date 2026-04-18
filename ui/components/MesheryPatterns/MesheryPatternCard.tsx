@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import {
   Avatar,
   Divider,
-  Grid2,
   IconButton,
   Typography,
   Link,
@@ -11,22 +10,18 @@ import {
   DeleteIcon,
   GetAppIcon,
   DoneAllIcon,
-  EditIcon,
+  Box,
 } from '@sistent/sistent';
 import { CustomTooltip, VisibilityChipMenu } from '@sistent/sistent';
 import Save from '@mui/icons-material/Save';
 import Fullscreen from '@mui/icons-material/Fullscreen';
 import Moment from 'react-moment';
-import FlipCard from '../FlipCard';
 import { UnControlled as CodeMirror } from '../CodeMirror';
 import FullscreenExit from '@mui/icons-material/FullscreenExit';
 import UndeployIcon from '../../public/static/img/UndeployIcon';
 import {
-  BottomContainer,
   CatalogCardButtons,
   UpdateDeleteButtons,
-  CardBackGrid,
-  YamlDialogTitleGrid,
   CardHeaderRight,
   GridBtnText,
   GridCloneBtnText,
@@ -49,8 +44,8 @@ import DryRunIcon from '@/assets/icons/DryRunIcon';
 import CheckIcon from '@/assets/icons/CheckIcon';
 import { VISIBILITY } from '@/utils/Enum';
 import PatternIcon from '@/assets/icons/Pattern';
-import { iconLarge, iconMedium } from 'css/icons.styles';
-import { VIEW_VISIBILITY } from '../General/Modals/Information/InfoModal';
+import { iconLarge, iconMedium } from '@/css/icons.styles';
+import { VIEW_VISIBILITY } from '@/components/shared/Modal/InfoModal';
 const INITIAL_GRID_SIZE = { xl: 4, md: 6, xs: 12 };
 
 function MesheryPatternCard_({

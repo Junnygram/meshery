@@ -28,20 +28,20 @@ import {
 } from '@sistent/sistent';
 import React, { useContext, useState } from 'react';
 import { capitalize } from 'lodash/fp';
-import { getAllUsers } from '../../rtk-query/user';
+import { getAllUsers } from '@/rtk-query/user';
 import { FileUpload } from '@mui/icons-material';
-import { ImportDesignModal } from '../MesheryPatterns/MesheryPatterns';
-import { useNotification } from '../../utils/hooks/useNotification';
-import { getUnit8ArrayDecodedFile } from '../../utils/utils';
-import { EVENT_TYPES } from 'lib/event-types';
-import { useImportPatternMutation } from '../../rtk-query/design';
+import ImportDesignModal from '@/components/designs/ImportDesignModal';
+import { useNotification } from '@/utils/hooks/useNotification';
+import { getUnit8ArrayDecodedFile } from '@/utils/utils';
+import { EVENT_TYPES } from '@/lib/event-types';
+import { useImportPatternMutation } from '@/rtk-query/design';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { updateProgress } from '@/store/slices/mesheryUi';
-import { WorkspaceModalContext } from '../../utils/context/WorkspaceModalContextProvider';
-import { useAssignDesignToWorkspaceMutation } from '../../rtk-query/workspace';
-import { RESOURCE_TYPE } from '../../utils/Enum';
-import { iconMedium } from '../../css/icons.styles';
-import MoveFileIcon from '../../assets/icons/MoveFileIcon';
+import { WorkspaceModalContext } from '@/utils/context/WorkspaceModalContextProvider';
+import { useAssignDesignToWorkspaceMutation } from '@/rtk-query/workspace';
+import { RESOURCE_TYPE } from '@/utils/Enum';
+import { iconMedium } from '@/css/icons.styles';
+import MoveFileIcon from '@/assets/icons/MoveFileIcon';
 import { StyledMuiDoubleCheckbox, StyledResponsiveButton } from './styles';
 
 export const UserSearchAutoComplete = ({ handleAuthorChange }) => {

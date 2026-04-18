@@ -1,9 +1,9 @@
 import React from 'react';
 import { Divider, IconButton, Tooltip, Box } from '@sistent/sistent';
 import Modal from './Modal';
-import { UnControlled as CodeMirror } from '../CodeMirror';
-import { FullscreenExit, Delete, Fullscreen, Save } from '../icons';
-import { StyledCodeMirrorWrapper } from '../MesheryPatterns/Cards.styles';
+import { UnControlled as CodeMirror } from '@/components/CodeMirror';
+import { FullscreenExit, Delete, Fullscreen, Save } from '@/components/icons';
+import { StyledCodeMirrorWrapper } from '@/components/MesheryPatterns/Cards.styles';
 
 const YAMLDialog = ({
   fullScreen,

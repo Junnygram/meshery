@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import Modal from '../shared/Modal/Modal';
 import { RJSFModalWrapper } from '../shared/Modal/RJSFModalWrapper';
 import { capitalize } from 'lodash';
@@ -8,11 +8,7 @@ export default function ImportDesignModal(props) {
   const { importType, handleSubmit, handleClose, rjsfSchema, uiSchema } = props;
 
   return (
-    <Modal
-      open={props.open}
-      closeModal={handleClose}
-      title={`Import ${capitalize(importType)}`}
-    >
+    <Modal open={props.open} closeModal={handleClose} title={`Import ${capitalize(importType)}`}>
       <RJSFModalWrapper
         schema={rjsfSchema}
         uiSchema={uiSchema || {}}
@@ -23,4 +19,3 @@ export default function ImportDesignModal(props) {
     </Modal>
   );
 }
-

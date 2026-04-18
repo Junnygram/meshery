@@ -1,11 +1,6 @@
 import * as React from 'react';
 import TroubleshootingModal from './shared/Troubleshooting/TroubleshootingModal';
-import {
-  Modal as SistentModal,
-  helpAndSupportModalSchema,
-  helpAndSupportModalUiSchema,
-  Button,
-} from '@sistent/sistent';
+import { helpAndSupportModalSchema, helpAndSupportModalUiSchema, Button } from '@sistent/sistent';
 import Modal from './shared/Modal/Modal';
 import { RJSFModalWrapper } from './shared/Modal/RJSFModalWrapper';
 import { useNotification } from '@/utils/hooks/useNotification';

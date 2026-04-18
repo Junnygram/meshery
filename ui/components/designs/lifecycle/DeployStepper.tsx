@@ -9,7 +9,7 @@ import {
   Box,
   Typography,
 } from '@sistent/sistent';
-import { useStepper, CustomizedStepper } from '../../shared/Stepper';
+import { useStepper, CustomizedStepper } from '@/components/shared/Stepper';
 import { CheckBoxField, DEPLOYMENT_TYPE, Loading } from './common';
 import DryRunIcon from '@/assets/icons/DryRunIcon';
 import { DeploymentSelectorIcon } from '@/assets/icons/DeploymentSelectorIcon';
@@ -20,20 +20,20 @@ import { selectAllSelectedK8sConnections } from '@/store/slices/globalEnvironmen
 import {
   useDryRunValidationResults,
   useIsValidatingDryRun,
-} from 'machines/validator/designValidator';
+} from '@/machines/validator/designValidator';
 import { useSelector } from 'react-redux';
 import { styled } from '@sistent/sistent';
 import { useTheme } from '@sistent/sistent';
 import { EnvironmentIcon } from '@sistent/sistent';
 import { useContext } from 'react';
-import { NotificationCenterContext } from '../NotificationCenter';
+import { NotificationCenterContext } from '@/components/NotificationCenter';
 import { useEffect } from 'react';
-import { OPERATION_CENTER_EVENTS } from 'machines/operationsCenter';
+import { OPERATION_CENTER_EVENTS } from '@/machines/operationsCenter';
 import { capitalize } from 'lodash';
 import FinishFlagIcon from '@/assets/icons/FinishFlagIcon';
 import { DeploymentSummaryFormatter } from './DeploymentSummary';
-import { SEVERITY } from '../NotificationCenter/constants';
-import EnvironmentFormModal from '../../environments/EnvironmentFormModal';
+import { SEVERITY } from '@/components/NotificationCenter/constants';
+import EnvironmentFormModal from '@/components/environments/EnvironmentFormModal';
 import { openViewScopedToDesignInOperator } from '@/utils/utils';
 import { useRouter } from 'next/router';
 import ProviderStoreWrapper from '@/store/ProviderStoreWrapper';

@@ -22,8 +22,8 @@ import {
   PROMPT_VARIANTS,
   ModalFooter,
 } from '@sistent/sistent';
-import { EmptyState } from '../shared/EmptyState';
-import AddIconCircleBorder from '../../assets/icons/AddIconCircleBorder';
+import { EmptyState } from '@/components/shared/EmptyState';
+import AddIconCircleBorder from '@/assets/icons/AddIconCircleBorder';
 import { useRef, useState } from 'react';
 import {
   useAssignTeamToWorkspaceMutation,
@@ -34,11 +34,11 @@ import {
   useGetWorkspacesQuery,
   useUnassignTeamFromWorkspaceMutation,
   useUpdateWorkspaceMutation,
-} from '../../rtk-query/workspace';
-import { useNotification, useNotificationHandlers } from '../../utils/hooks/useNotification';
-import { RJSFModalWrapper } from '../../shared/Modal/RJSFModalWrapper';
-import _PromptComponent from '../../PromptComponent';
-import { EVENT_TYPES } from '../../lib/event-types';
+} from '@/rtk-query/workspace';
+import { useNotification, useNotificationHandlers } from '@/utils/hooks/useNotification';
+import { RJSFModalWrapper } from '@/components/shared/Modal/RJSFModalWrapper';
+import _PromptComponent from '@/components/PromptComponent';
+import { EVENT_TYPES } from '@/lib/event-types';
 import { keys } from '@/utils/permission_constants';
 import CAN from '@/utils/can';
 import { ToolWrapper } from '@/assets/styles/general/tool.styles';
@@ -48,7 +48,7 @@ import WorkspaceGridView from './WorkspaceGridView';
 import RightArrowIcon from '@/assets/icons/RightArrowIcon';
 import { useGetUsersForOrgQuery, useRemoveUserFromTeamMutation } from '@/rtk-query/user';
 import WorkspaceDataTable from './WorkspaceDataTable';
-import { iconMedium } from '../../css/icons.styles';
+import { iconMedium } from '@/css/icons.styles';
 import { useSelector } from 'react-redux';
 import { updateProgress } from '@/store/slices/mesheryUi';
 import { useContext } from 'react';
@@ -480,7 +480,13 @@ export const Workspaces = ({ onSelectWorkspace }) => {
         <>
           {workspaces.length === 0 ? (
             <EmptyState
-              icon={<WorkspaceIcon height="6rem" width="6rem" primaryFill={theme.palette.icon.secondary} />}
+              icon={
+                <WorkspaceIcon
+                  height="6rem"
+                  width="6rem"
+                  primaryFill={theme.palette.icon.secondary}
+                />
+              }
               message="No workspace available"
               pointerLabel="Click “Create” to establish your first workspace."
             />

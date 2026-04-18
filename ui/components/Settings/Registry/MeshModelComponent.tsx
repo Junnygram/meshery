@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/AddCircleOutline';
 import LinkIcon from '@mui/icons-material/Link';
-import { MODELS, COMPONENTS, RELATIONSHIPS, REGISTRANTS } from '../../../constants/navigator';
+import { MODELS, COMPONENTS, RELATIONSHIPS, REGISTRANTS } from '@/constants/navigator';
 import {
   MeshModelToolbar,
   MainContainer,
@@ -24,10 +24,10 @@ import {
 import { groupRelationshipsByKind, removeDuplicateVersions } from './helper';
 import _ from 'lodash';
 import { Button, NoSsr } from '@sistent/sistent';
-import { iconSmall } from 'css/icons.styles';
+import { iconSmall } from '@/css/icons.styles';
 import { useInfiniteScrollRef, useMeshModelComponentRouter } from './hooks';
-import ImportModelModal from './ImportModelModal';
-import CreateModelModal from './CreateModelModal';
+import ImportModelModal from '@/components/registry/ImportModelModal';
+import CreateModelModal from '@/components/registry/CreateModelModal';
 import CreateRelationshipModal from '@/components/RelationshipBuilder/CreateRelationshipModal';
 
 type MeshModelComponentProps = {

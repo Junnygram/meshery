@@ -31,7 +31,10 @@ const GenericEmptyState: React.FC<GenericEmptyStateProps> = ({ title, subtitle, 
   return (
     <StyledEmptyStateRoot>
       {icon && (
-        <Box mb={2} sx={{ fontSize: '4rem', color: (theme) => theme.palette.text.secondary, opacity: 0.6 }}>
+        <Box
+          mb={2}
+          sx={{ fontSize: '4rem', color: (theme) => theme.palette.text.secondary, opacity: 0.6 }}
+        >
           {icon}
         </Box>
       )}

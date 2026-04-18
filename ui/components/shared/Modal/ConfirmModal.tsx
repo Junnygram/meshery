@@ -1,6 +1,12 @@
 import React from 'react';
 import Modal, { ModalProps } from './Modal';
-import { ModalFooter, ModalButtonPrimary, ModalButtonSecondary, Typography, ModalBody } from '@sistent/sistent';
+import {
+  ModalFooter,
+  ModalButtonPrimary,
+  ModalButtonSecondary,
+  Typography,
+  ModalBody,
+} from '@sistent/sistent';
 
 interface ConfirmModalProps extends Omit<ModalProps, 'children'> {
   message: string | React.ReactNode;
@@ -28,19 +34,17 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
         <Typography variant="body1">{message}</Typography>
       </ModalBody>
       <ModalFooter>
-        <ModalButtonSecondary onClick={closeModal}>
-          {cancelLabel}
-        </ModalButtonSecondary>
+        <ModalButtonSecondary onClick={closeModal}>{cancelLabel}</ModalButtonSecondary>
         <ModalButtonPrimary
           onClick={() => {
             onConfirm();
             closeModal();
           }}
           sx={{
-             backgroundColor: variant === 'danger' ? 'red' : undefined,
-             '&:hover': {
-               backgroundColor: variant === 'danger' ? 'darkred' : undefined,
-             }
+            backgroundColor: variant === 'danger' ? 'red' : undefined,
+            '&:hover': {
+              backgroundColor: variant === 'danger' ? 'darkred' : undefined,
+            },
           }}
         >
           {confirmLabel}

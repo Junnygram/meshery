@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import type { Theme } from '@sistent/sistent';
 import {
   Divider,
-  Grid2,
   IconButton,
   Typography,
   Tooltip,
@@ -10,19 +9,16 @@ import {
   Avatar,
   useTheme,
   DeleteIcon,
+  Box,
 } from '@sistent/sistent';
 import Fullscreen from '@mui/icons-material/Fullscreen';
 import Save from '@mui/icons-material/Save';
 import Moment from 'react-moment';
-import FlipCard from '../FlipCard';
 import { UnControlled as CodeMirror } from '../CodeMirror';
 import FullscreenExit from '@mui/icons-material/FullscreenExit';
 import {
-  BottomContainer,
-  CardBackGrid,
   CatalogCardButtons,
   UpdateDeleteButtons,
-  YamlDialogTitleGrid,
   GridBtnText,
   GridCloneBtnText,
   CardHeaderRight,
@@ -41,9 +37,9 @@ import { MESHERY_CLOUD_PROD } from '../../constants/endpoints';
 import { keys } from '@/utils/permission_constants';
 import CAN from '@/utils/can';
 import { VisibilityChipMenu } from '@sistent/sistent';
-import { VIEW_VISIBILITY } from '../General/Modals/Information/InfoModal';
+import { VIEW_VISIBILITY } from '@/components/shared/Modal/InfoModal';
 import { Public, Lock } from '@mui/icons-material';
-import { iconMedium } from 'css/icons.styles';
+import { iconMedium } from '@/css/icons.styles';
 
 const INITIAL_GRID_SIZE = { xl: 4, md: 6, xs: 12 };
 

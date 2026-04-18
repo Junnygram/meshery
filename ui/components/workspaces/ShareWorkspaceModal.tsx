@@ -11,7 +11,7 @@ import {
 import { useUpdateViewVisibilityMutation } from '@/rtk-query/view';
 import { useNotification } from '@/utils/hooks/useNotification';
 import { ShareModal as CatalogShare } from '@sistent/sistent';
-import { getShareableResourceRoute } from '../SpacesSwitcher/hooks';
+import { getShareableResourceRoute } from '@/components/workspaces/switcher/hooks';
 import { JsonParse } from '@/utils/utils';
 import { MESHERY_CLOUD_PROD } from '@/constants/endpoints';
 import { RESOURCE_TYPE } from '@/utils/Enum';

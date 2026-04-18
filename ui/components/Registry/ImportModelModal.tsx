@@ -11,17 +11,17 @@ import {
   Box,
   useTheme,
 } from '@sistent/sistent';
-import Modal from '../shared/Modal/Modal';
-import { RJSFModalWrapper } from '../shared/Modal/RJSFModalWrapper';
+import Modal from '@/components/shared/Modal/Modal';
+import { RJSFModalWrapper } from '@/components/shared/Modal/RJSFModalWrapper';
 import CsvStepper from './Stepper/CSVStepper';
 import { MESHERY_DOCS_URL } from '@/constants/endpoints';
 import { getUnit8ArrayDecodedFile } from '@/utils/utils';
 import { useImportMeshModelMutation } from '@/rtk-query/meshModel';
 import React, { useState, useEffect, useContext } from 'react';
 import { capitalize } from 'lodash';
-import { Loading } from '@/components/DesignLifeCycle/common';
+import { Loading } from '@/components/designs/lifecycle/common';
 import { NotificationCenterContext } from '@/components/NotificationCenter';
-import { OPERATION_CENTER_EVENTS } from 'machines/operationsCenter';
+import { OPERATION_CENTER_EVENTS } from '@/machines/operationsCenter';
 import {
   ModelImportedSection,
   ModelImportMessages,

@@ -20,26 +20,28 @@ import useInfiniteScroll, {
   handleUpdateViewVisibility,
   useContentDelete,
   useContentDownload,
-} from './hooks';
+} from '@/components/workspaces/switcher/hooks';
 import { MenuComponent } from './MenuComponent';
-import { RESOURCE_TYPE } from '../../utils/Enum';
+import { RESOURCE_TYPE } from '@/utils/Enum';
 import { DesignList, LoadingContainer, GhostContainer, GhostImage, GhostText } from './styles';
-import { useUpdatePatternFileMutation } from '../../rtk-query/design';
-import { useUpdateViewVisibilityMutation } from '../../rtk-query/view';
-import ShareModal from './ShareModal';
-import { InfoModal } from '../General/Modals/Information/InfoModal';
-import { ViewInfoModal } from '../workspaces/ViewInfoModal';
-import { openDesignInKanvas, openViewInKanvas, useIsOperatorEnabled } from '../../utils/utils';
-import { useNotification } from '../../utils/hooks/useNotification';
-import { EVENT_TYPES } from 'lib/event-types';
-import MoveFileIcon from '../../assets/icons/MoveFileIcon';
-import { WorkspaceModalContext } from '../../utils/context/WorkspaceModalContextProvider';
+import { useUpdatePatternFileMutation } from '@/rtk-query/design';
+import { useUpdateViewVisibilityMutation } from '@/rtk-query/view';
+import ShareModal from '@/components/workspaces/ShareWorkspaceModal';
+import InfoModal from '@/components/shared/Modal/InfoModal';
+import { ViewInfoModal } from '@/components/workspaces/ViewInfoModal';
+import { openDesignInKanvas, openViewInKanvas, useIsOperatorEnabled } from '@/utils/utils';
+import { useNotification } from '@/utils/hooks/useNotification';
+import { EVENT_TYPES } from '@/lib/event-types';
+import MoveFileIcon from '@/assets/icons/MoveFileIcon';
+import { WorkspaceModalContext } from '@/utils/context/WorkspaceModalContextProvider';
 import {
   useAssignDesignToWorkspaceMutation,
   useAssignViewToWorkspaceMutation,
   useGetWorkspacesQuery,
-} from '../../rtk-query/workspace';
-import { getUserAccessToken, getUserProfile, useGetLoggedInUserQuery } from '../../rtk-query/user';
+} from '@/rtk-query/workspace';
+import { getUserAccessToken, getUserProfile, useGetLoggedInUserQuery } from '@/rtk-query/user';
+import CAN from '@/utils/can';
+import { keys } from '@/utils/permission_constants';
 
 interface UnifiedResourceListProps {
   type: RESOURCE_TYPE.DESIGN | RESOURCE_TYPE.VIEW;
@@ -191,7 +193,9 @@ const UnifiedResourceList: React.FC<UnifiedResourceListProps> = ({
   const isEmpty = total_count === 0;
   const shouldRenderItems = !isEmpty && !isInitialFetch;
 
-  const { capabilitiesRegistry, organization: currentOrganization } = useSelector((state: any) => state.ui);
+  const { capabilitiesRegistry, organization: currentOrganization } = useSelector(
+    (state: any) => state.ui,
+  );
   const providerUrl = capabilitiesRegistry?.provider_url;
   const [activeUsers] = useRoomActivity({
     provider_url: providerUrl,
@@ -222,8 +226,16 @@ const UnifiedResourceList: React.FC<UnifiedResourceListProps> = ({
                   canChangeVisibility={canChangeVisibility}
                   onVisibilityChange={async (value, selected) => {
                     isDesign
-                      ? await handleUpdateDesignVisibility({ value, selectedResource: selected, updatePattern })
-                      : await handleUpdateViewVisibility({ value, selectedResource: selected, updateView });
+                      ? await handleUpdateDesignVisibility({
+                          value,
+                          selectedResource: selected,
+                          updatePattern,
+                        })
+                      : await handleUpdateViewVisibility({
+                          value,
+                          selectedResource: selected,
+                          updateView,
+                        });
                     refetch();
                   }}
                   MenuComponent={<MenuComponent options={getMenuOptions(item)} />}
@@ -236,20 +248,28 @@ const UnifiedResourceList: React.FC<UnifiedResourceListProps> = ({
           })}
         <LoadingContainer ref={loadingRef}>
           {isLoading || isInitialFetch ? (
-            Array(10).fill(0).map((_, i) => (
-              <DesignViewListItemSkeleton key={i} isMultiSelectMode={isMultiSelectMode} />
-            ))
+            Array(10)
+              .fill(0)
+              .map((_, i) => (
+                <DesignViewListItemSkeleton key={i} isMultiSelectMode={isMultiSelectMode} />
+              ))
           ) : isFetching ? (
             <DesignViewListItemSkeleton isMultiSelectMode={isMultiSelectMode} />
           ) : null}
           {!hasMore && !isLoading && !isFetching && items?.length > 0 && !isEmpty && (
-            <ListItemText secondary={`No more ${isDesign ? 'designs' : 'views'} to load`} style={{ padding: '1rem' }} />
+            <ListItemText
+              secondary={`No more ${isDesign ? 'designs' : 'views'} to load`}
+              style={{ padding: '1rem' }}
+            />
           )}
         </LoadingContainer>
 
         {!isLoading && isEmpty && (
           <ListItem>
-            <ListItemText primary={`No ${isDesign ? 'designs' : 'views'} found`} style={{ textAlign: 'center' }} />
+            <ListItemText
+              primary={`No ${isDesign ? 'designs' : 'views'} found`}
+              style={{ textAlign: 'center' }}
+            />
           </ListItem>
         )}
       </DesignList>
@@ -260,15 +280,11 @@ const UnifiedResourceList: React.FC<UnifiedResourceListProps> = ({
       </GhostContainer>
 
       {shareModal && (
-        <ShareModal
-          resource={selectedItem}
-          handleClose={() => setShareModal(false)}
-          type={type}
-        />
+        <ShareModal resource={selectedItem} handleClose={() => setShareModal(false)} type={type} />
       )}
 
-      {infoModal && (
-        isDesign ? (
+      {infoModal &&
+        (isDesign ? (
           <InfoModal
             open={infoModal}
             handleClose={() => setInfoModal(false)}
@@ -282,8 +298,7 @@ const UnifiedResourceList: React.FC<UnifiedResourceListProps> = ({
             view_name={selectedItem?.name}
             metadata={selectedItem?.metadata}
           />
-        )
-      )}
+        ))}
 
       {moveModal && (
         <WorkspaceContentMoveModal
@@ -297,9 +312,18 @@ const UnifiedResourceList: React.FC<UnifiedResourceListProps> = ({
           WorkspaceModalContext={WorkspaceModalContext}
           assignDesignToWorkspace={assignDesignToWorkspace}
           assignViewToWorkspace={assignViewToWorkspace}
-          isCreateWorkspaceAllowed={CAN(keys.CREATE_WORKSPACE.action, keys.CREATE_WORKSPACE.subject)}
-          isMoveDesignAllowed={CAN(keys.ASSIGN_DESIGNS_TO_WORKSPACE.action, keys.ASSIGN_DESIGNS_TO_WORKSPACE.subject)}
-          isMoveViewAllowed={CAN(keys.ASSIGN_VIEWS_TO_WORKSPACE.action, keys.ASSIGN_VIEWS_TO_WORKSPACE.subject)}
+          isCreateWorkspaceAllowed={CAN(
+            keys.CREATE_WORKSPACE.action,
+            keys.CREATE_WORKSPACE.subject,
+          )}
+          isMoveDesignAllowed={CAN(
+            keys.ASSIGN_DESIGNS_TO_WORKSPACE.action,
+            keys.ASSIGN_DESIGNS_TO_WORKSPACE.subject,
+          )}
+          isMoveViewAllowed={CAN(
+            keys.ASSIGN_VIEWS_TO_WORKSPACE.action,
+            keys.ASSIGN_VIEWS_TO_WORKSPACE.subject,
+          )}
           currentOrgId={currentOrganization?.id}
           notify={notify}
           router={router}

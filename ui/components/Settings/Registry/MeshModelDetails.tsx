@@ -1,6 +1,6 @@
 import React from 'react';
 import { DetailsContainer, Segment, FullWidth } from '@/assets/styles/general/tool.styles';
-import { MODELS, COMPONENTS, RELATIONSHIPS, REGISTRANTS } from '../../../constants/navigator';
+import { MODELS, COMPONENTS, RELATIONSHIPS, REGISTRANTS } from '@/constants/navigator';
 import { FormatStructuredData, reorderObjectProperties } from '@/components/DataFormatter';
 import {
   FormControl,
@@ -32,7 +32,7 @@ import {
   StyledKeyValuePropertyDiv,
   StyledKeyValueProperty,
 } from './MeshModel.style';
-import { iconSmall } from 'css/icons.styles';
+import { iconSmall } from '@/css/icons.styles';
 const ReactJson = dynamic(() => import('@microlink/react-json-view'), { ssr: false });
 
 const ExportAvailable = true;

@@ -1,7 +1,7 @@
 import React from 'react';
 import Environments from '@/components/environments';
 import { EnvironmentIcon, useTheme, Box } from '@sistent/sistent';
-import Modal from '../shared/Modal/Modal';
+import Modal from '@/components/shared/Modal/Modal';
 
 const EnvironmentFormModal = ({ isOpenModal, setIsOpenModal }) => {
   const theme = useTheme();

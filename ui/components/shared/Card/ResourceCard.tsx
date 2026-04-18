@@ -55,7 +55,14 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
 }) => {
   const theme = useTheme();
 
-  const renderSide = (t: string, s: React.ReactNode, hr: React.ReactNode, f: React.ReactNode, c: React.ReactNode, isBack = false) => (
+  const renderSide = (
+    t: string,
+    s: React.ReactNode,
+    hr: React.ReactNode,
+    f: React.ReactNode,
+    c: React.ReactNode,
+    isBack = false,
+  ) => (
     <StyledCard onClick={!isBack ? onClick : undefined}>
       <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
         <Box display="flex" justifyContent="space-between" alignItems="flex-start">
@@ -85,7 +92,9 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
             </Typography>
           </Box>
         )}
-        <Box mt={1} sx={{ flexGrow: 1 }}>{c}</Box>
+        <Box mt={1} sx={{ flexGrow: 1 }}>
+          {c}
+        </Box>
       </Box>
       {f && (
         <Box
@@ -103,18 +112,20 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   );
 
   const Front = renderSide(title, subtitle, headerRight, footer, children);
-  const Back = (isFlippable && (backContent || backTitle)) 
-    ? renderSide(backTitle || title, backSubtitle || subtitle, backHeaderRight, backFooter, backContent, true) 
-    : null;
+  const Back =
+    isFlippable && (backContent || backTitle)
+      ? renderSide(
+          backTitle || title,
+          backSubtitle || subtitle,
+          backHeaderRight,
+          backFooter,
+          backContent,
+          true,
+        )
+      : null;
 
   if (isFlippable && Back) {
-    return (
-      <FlipCard
-        frontComponents={Front}
-        backComponents={Back}
-        onFlip={onFlip}
-      />
-    );
+    return <FlipCard frontComponents={Front} backComponents={Back} onFlip={onFlip} />;
   }
 
   return Front;

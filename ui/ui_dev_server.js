@@ -5,7 +5,9 @@ const next = require('next');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
+delete process.env.TURBOPACK;
+process.env.NEXT_WEBPACK = 'true';
+const app = next({ dev, turbo: false, turbopack: false, webpack: true });
 const handle = app.getRequestHandler();
 var httpProxy = require('http-proxy');
 

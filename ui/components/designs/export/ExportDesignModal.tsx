@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  useTheme,
-  Box,
-  IconButton,
-  Typography,
-} from '@sistent/sistent';
+import { ListItem, ListItemText, ListItemIcon, useTheme, Box, IconButton } from '@sistent/sistent';
 import Modal from '../../shared/Modal/Modal';
 import { Download, InfoOutlined } from '../../icons';
 import KubernetesIcon from '@/assets/icons/technology/kubernetes';
@@ -85,7 +77,7 @@ const ExportDesignModal = (props) => {
       icon: <PatternIcon width={'30'} height="30" fill={Colors.caribbeanGreen} />,
       onClick: (e) => handleDesignDownload(e, downloadModal.content),
       description:
-        'Export your design as a complete, self-contained Meshery Design file (YAML). This file includes embedded images and all configuration details. It\'s the perfect format for creating backups, sharing with colleagues using Meshery, or transferring designs between Meshery environments without losing any information (lossless transfer).',
+        "Export your design as a complete, self-contained Meshery Design file (YAML). This file includes embedded images and all configuration details. It's the perfect format for creating backups, sharing with colleagues using Meshery, or transferring designs between Meshery environments without losing any information (lossless transfer).",
     },
     {
       title: 'Meshery Design (OCI image)',
@@ -107,7 +99,8 @@ const ExportDesignModal = (props) => {
       icon: <HelmIcon width={'30'} height="30" />,
       onClick: (e) => handleDesignDownload(e, downloadModal.content, null, 'export=helm-chart'),
       disabled: false,
-      description: 'Download your design as a Helm Chart. This process strips out Meshery-specific information.',
+      description:
+        'Download your design as a Helm Chart. This process strips out Meshery-specific information.',
     },
     ...extensionExportOptions,
   ];

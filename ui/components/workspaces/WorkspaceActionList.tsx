@@ -15,7 +15,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import { useState } from 'react';
 import { TableIconsContainer, IconWrapper } from './styles';
-import { iconMedium } from '../../css/icons.styles';
+import { iconMedium } from '@/css/icons.styles';
 import { WORKSPACE_ACTION_TYPES } from '.';
 import CAN from '@/utils/can';
 import { keys } from '@/utils/permission_constants';

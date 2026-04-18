@@ -5,10 +5,8 @@ import {
   AccordionDetails,
   AccordionSummary,
   styled,
-  IconButton,
   InfoIcon,
   LIGHT_TEAL,
-  keyframes,
   useTheme,
 } from '@sistent/sistent';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -114,11 +112,7 @@ const TroubleshootingModal = (props) => {
       footer={
         <FooterText>
           Need help? Contact us via{' '}
-          <ContactHelpLink
-            href="mailto:maintainers@meshery.io"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <ContactHelpLink href="mailto:maintainers@meshery.io" target="_blank" rel="noreferrer">
             email
           </ContactHelpLink>{' '}
           or{' '}
@@ -156,12 +150,12 @@ const TroubleshootingModal = (props) => {
                 <KeyStyleContainer>R</KeyStyleContainer> or
                 <KeyStyleContainer>CMD</KeyStyleContainer>+
                 <KeyStyleContainer>OPTION</KeyStyleContainer>+
-                <KeyStyleContainer>E</KeyStyleContainer> to force reload if you are getting
-                stale copy of the component due to caching.
+                <KeyStyleContainer>E</KeyStyleContainer> to force reload if you are getting stale
+                copy of the component due to caching.
               </TroubleshootListitem>
               <TroubleshootListitem>
-                Use Incognito or Private browsing mode. If you are still getting stale copy of
-                the component, try opening a <code>incognito tab</code>
+                Use Incognito or Private browsing mode. If you are still getting stale copy of the
+                component, try opening a <code>incognito tab</code>
               </TroubleshootListitem>
             </Typography>
           </ul>
@@ -188,10 +182,9 @@ const TroubleshootingModal = (props) => {
           <ul>
             <Typography component="div">
               <TroubleshootListitem>
-                Verify MeshSync data is being received. Run{' '}
-                <code>kubectl get svc -n meshery</code>. Docker Desktop: VPNkit commonly fails
-                to assign an IP address to Meshery Broker (MeshSync). Verify that the Meshery
-                Broker service has external IP address assigned.
+                Verify MeshSync data is being received. Run <code>kubectl get svc -n meshery</code>.
+                Docker Desktop: VPNkit commonly fails to assign an IP address to Meshery Broker
+                (MeshSync). Verify that the Meshery Broker service has external IP address assigned.
               </TroubleshootListitem>
               <TroubleshootListitem>
                 Confirm that your machine&apos;s firewall isn&apos;t getting in the way.
@@ -240,4 +233,3 @@ const TroubleshootingModal = (props) => {
 };
 
 export default TroubleshootingModal;
- Eleanort default TroubleshootingModal;

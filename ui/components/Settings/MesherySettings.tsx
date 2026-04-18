@@ -17,20 +17,20 @@ import {
   FileIcon,
   useTheme,
 } from '@sistent/sistent';
-import DashboardMeshModelGraph from '../Dashboard/charts/DashboardMeshModelGraph';
+import DashboardMeshModelGraph from '@/components/Dashboard/charts/DashboardMeshModelGraph';
 import Link from 'next/link';
-import GrafanaComponent from '../telemetry/grafana/GrafanaComponent';
-import MeshAdapterConfigComponent from '../MeshAdapterConfigComponent';
-import PrometheusComponent from '../telemetry/prometheus/PrometheusComponent';
-import _PromptComponent from '../PromptComponent';
-import { iconMedium } from '../../css/icons.styles';
-import DatabaseSummary from '../DatabaseSummary';
+import GrafanaComponent from '@/components/telemetry/grafana/GrafanaComponent';
+import MeshAdapterConfigComponent from '@/components/MeshAdapterConfigComponent';
+import PrometheusComponent from '@/components/telemetry/prometheus/PrometheusComponent';
+import _PromptComponent from '@/components/PromptComponent';
+import { iconMedium } from '@/css/icons.styles';
+import DatabaseSummary from '@/components/DatabaseSummary';
 import {
   getComponentsDetail,
   getMeshModels,
   getRelationshipsDetail,
   getMeshModelRegistrants,
-} from '../../api/meshmodel';
+} from '@/api/meshmodel';
 import CAN from '@/utils/can';
 import { keys } from '@/utils/permission_constants';
 import {
@@ -44,10 +44,10 @@ import {
 } from '@/constants/navigator';
 import { removeDuplicateVersions } from './Registry/helper';
 import MeshModelComponent from './Registry/MeshModelComponent';
-import DefaultError from '../General/error-404';
-import MesheryConfigurationChart from '../Dashboard/charts/MesheryConfigurationCharts';
-import ConnectionStatsChart from '../Dashboard/charts/ConnectionCharts';
-import { SecondaryTab, SecondaryTabs } from '../Dashboard/style';
+import DefaultError from '@/components/General/error-404';
+import MesheryConfigurationChart from '@/components/Dashboard/charts/MesheryConfigurationCharts';
+import ConnectionStatsChart from '@/components/Dashboard/charts/ConnectionCharts';
+import { SecondaryTab, SecondaryTabs } from '@/components/Dashboard/style';
 import { useSelector } from 'react-redux';
 import { useGetProviderCapabilitiesQuery } from '@/rtk-query/user';
 

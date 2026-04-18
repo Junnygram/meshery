@@ -1,12 +1,6 @@
 import React from 'react';
 import Modal from './Modal';
-import {
-  CheckCircleIcon,
-  DeleteIcon,
-  Typography,
-  useTheme,
-  Button,
-} from '@sistent/sistent';
+import { CheckCircleIcon, DeleteIcon, Typography, useTheme, Button } from '@sistent/sistent';
 
 interface UnsavedChangesModalProps {
   open: boolean;
@@ -47,11 +41,11 @@ const UnsavedChangesModal = ({ open, onClose, onDiscard, onSave }: UnsavedChange
           >
             Discard Changes
           </Button>
-          <Button 
-            type="button" 
+          <Button
+            type="button"
             variant="contained"
             color="primary"
-            onClick={onSave} 
+            onClick={onSave}
             startIcon={<CheckCircleIcon />}
           >
             Save Changes
@@ -60,8 +54,8 @@ const UnsavedChangesModal = ({ open, onClose, onDiscard, onSave }: UnsavedChange
       }
     >
       <Typography variant="body1">
-        You have unsaved changes to your dashboard layout. If you leave now, your widget
-        arrangement and edits will be lost.
+        You have unsaved changes to your dashboard layout. If you leave now, your widget arrangement
+        and edits will be lost.
       </Typography>
     </Modal>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from '../shared/Modal/Modal';
-import CustomizedSteppers from './Stepper';
+import CustomizedSteppers from './meshSync/Stepper';
 
 import { useCancelConnectionRegisterMutation } from '@/rtk-query/connection';
 import { useDeleteMeshsyncResourceMutation } from '@/rtk-query/meshsync';
@@ -30,7 +30,7 @@ const RegisterConnectionModal = ({
   const handleClose = () => {
     handleRegistrationModalClose();
     if (sharedData?.connection?.id) {
-       cancelConnectionRegister(sharedData.connection.id);
+      cancelConnectionRegister(sharedData.connection.id);
     }
   };
 

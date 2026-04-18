@@ -1,13 +1,9 @@
-/* eslint-disable react/display-name */
-
 import {
   CustomColumnVisibilityControl,
   CustomTooltip,
   OutlinedPatternIcon,
   SearchBar,
   UniversalFilter,
-  importDesignSchema,
-  importDesignUiSchema,
   publishCatalogItemSchema,
   publishCatalogItemUiSchema,
   Box,
@@ -46,10 +42,8 @@ import LoadingScreen from '../LoadingComponents/LoadingComponent';
 import { FILE_OPS, MesheryPatternsCatalog, VISIBILITY } from '../../utils/Enum';
 import CloneIcon from '../../public/static/img/CloneIcon';
 import { useRouter } from 'next/router';
-import { RJSFModalWrapper } from '../shared/Modal/RJSFModalWrapper';
 import downloadContent from '../../utils/fileDownloader';
 import ConfigurationSubscription from '../graphql/subscriptions/ConfigurationSubscription';
-import Pattern from '../../public/static/img/drawer-icons/pattern_svg';
 import { useNotification } from '../../utils/hooks/useNotification';
 import { EVENT_TYPES } from '../../lib/event-types';
 import _ from 'lodash';
@@ -60,7 +54,7 @@ import { updateVisibleColumns } from '../../utils/responsive-column';
 import { useWindowDimensions } from '../../utils/dimension';
 import PublishDesignModal from '../designs/PublishDesignModal';
 import ImportDesignModal from '../designs/ImportDesignModal';
-import InfoModal from '../General/Modals/Information/InfoModal';
+import InfoModal from '@/components/shared/Modal/InfoModal';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { DefaultTableCell, SortableTableCell } from '../connections/common';
 import DefaultError from '../General/error-404/index';
@@ -72,9 +66,9 @@ import PatternIcon from '@/assets/icons/Pattern';
 import DryRunIcon from '@/assets/icons/DryRunIcon';
 import { useActorRef } from '@xstate/react';
 import { designValidationMachine } from 'machines/validator/designValidator';
-import { UnDeployStepper, DeployStepper } from '../DesignLifeCycle/DeployStepper';
-import { DryRunDesign } from '../DesignLifeCycle/DryRun';
-import { DEPLOYMENT_TYPE } from '../DesignLifeCycle/common';
+import { UnDeployStepper, DeployStepper } from '@/components/designs/lifecycle/DeployStepper';
+import { DryRunDesign } from '@/components/designs/lifecycle/DryRun';
+import { DEPLOYMENT_TYPE } from '@/components/designs/lifecycle/common';
 import {
   useClonePatternMutation,
   useDeletePatternFileMutation,
@@ -89,7 +83,7 @@ import {
   useUploadPatternFileMutation,
 } from '@/rtk-query/design';
 import CheckIcon from '@/assets/icons/CheckIcon';
-import { ValidateDesign } from '../DesignLifeCycle/ValidateDesign';
+import { ValidateDesign } from '@/components/designs/lifecycle/ValidateDesign';
 import PatternConfigureIcon from '@/assets/icons/PatternConfigure';
 // import { useGetUserPrefQuery } from '@/rtk-query/user';
 import { useGetProviderCapabilitiesQuery } from '@/rtk-query/user';

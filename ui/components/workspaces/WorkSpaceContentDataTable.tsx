@@ -1,11 +1,10 @@
-// @ts-nocheck
 import { ErrorBoundary } from '@sistent/sistent';
-import WorkspaceContent from '@/components/SpacesSwitcher/WorkspaceContent';
+import UnifiedSwitcherContent from './switcher/UnifiedSwitcherContent';
 
 const WorkSpaceContentDataTable = ({ workspace }) => {
   return (
     <ErrorBoundary>
-      <WorkspaceContent workspace={workspace} />
+      <UnifiedSwitcherContent variant="workspace" workspace={workspace} />
     </ErrorBoundary>
   );
 };

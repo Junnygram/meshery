@@ -4,7 +4,7 @@ import Moment from 'react-moment';
 import CustomToolbarSelect from '../CustomToolbarSelect';
 import MesheryChart from '../MesheryChart';
 import GrafanaCustomCharts from '../telemetry/grafana/GrafanaCustomCharts';
-import GenericModal from '../shared/Modal/GenericModal';
+import Modal from '../shared/Modal/Modal';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import InfoIcon from '@mui/icons-material/Info';
 import fetchPerformanceResults from '../graphql/queries/PerformanceResultQuery';
@@ -719,31 +719,24 @@ function MesheryResults({ endpoint, CustomHeader = <div />, elevation = 4 }) {
         options={options}
       />
 
-      <GenericModal
-        open={!!selectedRowChart}
-        // @ts-ignore
-        Content={
-          <ResultChart
-            result={selectedRowChart}
-            handleTabChange={handleTabChange}
-            tabValue={tabValue}
-          />
-        }
-        handleClose={() => setSelectedRowChart(undefined)}
-      />
+      <Modal open={!!selectedRowChart} closeModal={() => setSelectedRowChart(undefined)}>
+        <ResultChart
+          result={selectedRowChart}
+          handleTabChange={handleTabChange}
+          tabValue={tabValue}
+        />
+      </Modal>
 
-      <GenericModal
+      <Modal
         open={!!selectedRowNodeDetails}
-        // @ts-ignore
-        Content={
-          <ResultNodeDetails
-            result={selectedRowNodeDetails}
-            handleTabChange={handleTabChange}
-            tabValue={tabValue}
-          />
-        }
-        handleClose={() => setSelectedRowNodeDetails(undefined)}
-      />
+        closeModal={() => setSelectedRowNodeDetails(undefined)}
+      >
+        <ResultNodeDetails
+          result={selectedRowNodeDetails}
+          handleTabChange={handleTabChange}
+          tabValue={tabValue}
+        />
+      </Modal>
     </NoSsr>
   );
 }

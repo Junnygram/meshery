@@ -1,4 +1,4 @@
-import { useGetUserProfileSummaryByIdQuery } from '../../rtk-query/user';
+import { useGetUserProfileSummaryByIdQuery } from '@/rtk-query/user';
 import {
   Divider,
   CustomTooltip,
@@ -13,7 +13,7 @@ import {
   Typography,
 } from '@sistent/sistent';
 import { Lock, Public } from '@mui/icons-material';
-import { VIEW_VISIBILITY } from '../General/Modals/Information/InfoModal';
+import { VIEW_VISIBILITY } from '@/components/shared/Modal/InfoModal';
 import {
   StyledAvatarContainer,
   StyledListIcon,
@@ -26,10 +26,10 @@ import {
   StyledUserDetailsContainer,
 } from './styles';
 import React, { useContext } from 'react';
-import { iconMedium } from '../../css/icons.styles';
-import { RESOURCE_TYPE } from '../../utils/Enum';
+import { iconMedium } from '@/css/icons.styles';
+import { RESOURCE_TYPE } from '@/utils/Enum';
 import UserAvatarComponent from './UserAvatarComponent';
-import { WorkspaceModalContext } from '../../utils/context/WorkspaceModalContextProvider';
+import { WorkspaceModalContext } from '@/utils/context/WorkspaceModalContextProvider';
 import { Grid2 } from '@sistent/sistent';
 import { useGetIconBasedOnMode } from './hooks';
 

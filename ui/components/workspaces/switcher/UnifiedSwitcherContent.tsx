@@ -13,17 +13,17 @@ import {
   PromptComponent,
   WorkspaceContentMoveModal,
 } from '@sistent/sistent';
-import { RESOURCE_TYPE, VISIBILITY } from '../../utils/Enum';
-import { useGetUserDesignsQuery } from '../../rtk-query/design';
-import { useFetchViewsQuery } from '../../rtk-query/view';
+import { RESOURCE_TYPE, VISIBILITY } from '@/utils/Enum';
+import { useGetUserDesignsQuery } from '@/rtk-query/design';
+import { useFetchViewsQuery } from '@/rtk-query/view';
 import {
   useGetDesignsOfWorkspaceQuery,
   useGetViewsOfWorkspaceQuery,
   useGetWorkspacesQuery,
   useAssignDesignToWorkspaceMutation,
   useAssignViewToWorkspaceMutation,
-} from '../../rtk-query/workspace';
-import { useGetLoggedInUserQuery } from '../../rtk-query/user';
+} from '@/rtk-query/workspace';
+import { useGetLoggedInUserQuery } from '@/rtk-query/user';
 import {
   ImportButton,
   MultiContentSelectToolbar,
@@ -32,14 +32,18 @@ import {
   VisibilitySelect,
   UserSearchAutoComplete,
 } from './components';
-import { getDefaultFilterType, useContentDelete, useContentDownload } from './hooks';
+import {
+  getDefaultFilterType,
+  useContentDelete,
+  useContentDownload,
+} from '@/components/workspaces/switcher/hooks';
 import UnifiedResourceList from './UnifiedResourceList';
-import ExportDesignModal from '../designs/export/ExportDesignModal';
-import ShareModal from './ShareModal';
-import { WorkspaceModalContext } from '../../utils/context/WorkspaceModalContextProvider';
-import { useNotification } from '../../utils/hooks/useNotification';
-import CAN from '../../utils/can';
-import { keys } from '../../utils/permission_constants';
+import ExportDesignModal from '@/components/designs/export/ExportDesignModal';
+import ShareModal from '@/components/workspaces/ShareWorkspaceModal';
+import { WorkspaceModalContext } from '@/utils/context/WorkspaceModalContextProvider';
+import { useNotification } from '@/utils/hooks/useNotification';
+import CAN from '@/utils/can';
+import { keys } from '@/utils/permission_constants';
 
 export type SwitcherVariant = 'recent' | 'workspace' | 'my' | 'shared';
 
@@ -53,13 +57,17 @@ interface UnifiedSwitcherContentProps {
  * Unified Switcher Content component that handles different views (recent, workspace, my, shared).
  * Standardizes filtering, querying, and resource listing.
  */
-const UnifiedSwitcherContent: React.FC<UnifiedSwitcherContentProps> = ({ variant, workspace, initialType }) => {
+const UnifiedSwitcherContent: React.FC<UnifiedSwitcherContentProps> = ({
+  variant,
+  workspace,
+  initialType,
+}) => {
   const theme = useTheme();
   const router = useRouter();
   const { notify } = useNotification();
   const { data: currentUser } = useGetLoggedInUserQuery({});
   const { organization: currentOrganization } = useSelector((state: any) => state.ui);
-  
+
   const isViewVisible = CAN(keys.VIEW_VIEWS.action, keys.VIEW_VIEWS.subject);
   const isWorkspace = variant === 'workspace';
   const isMy = variant === 'my';
@@ -93,29 +101,29 @@ const UnifiedSwitcherContent: React.FC<UnifiedSwitcherContentProps> = ({ variant
 
   // Handlers
   const handleTypeChange = useCallback((e: any) => {
-    setFilters(prev => ({ ...prev, type: e.target.value, designsPage: 0, viewsPage: 0 }));
+    setFilters((prev) => ({ ...prev, type: e.target.value, designsPage: 0, viewsPage: 0 }));
   }, []);
 
   const handleSortByChange = useCallback((e: any) => {
-    setFilters(prev => ({ ...prev, sortBy: e.target.value, designsPage: 0, viewsPage: 0 }));
+    setFilters((prev) => ({ ...prev, sortBy: e.target.value, designsPage: 0, viewsPage: 0 }));
   }, []);
 
   const handleVisibilityChange = useCallback((e: any) => {
     const value = e.target.value;
-    setFilters(prev => ({ 
-      ...prev, 
-      visibility: typeof value === 'string' ? value.split(',') : value, 
-      designsPage: 0, 
-      viewsPage: 0 
+    setFilters((prev) => ({
+      ...prev,
+      visibility: typeof value === 'string' ? value.split(',') : value,
+      designsPage: 0,
+      viewsPage: 0,
     }));
   }, []);
 
   const handleAuthorChange = useCallback((user_id: string) => {
-    setFilters(prev => ({ ...prev, author: user_id, designsPage: 0, viewsPage: 0 }));
+    setFilters((prev) => ({ ...prev, author: user_id, designsPage: 0, viewsPage: 0 }));
   }, []);
 
   const onSearchChange = useCallback((e: any) => {
-    setFilters(prev => ({ ...prev, searchQuery: e.target.value, designsPage: 0, viewsPage: 0 }));
+    setFilters((prev) => ({ ...prev, searchQuery: e.target.value, designsPage: 0, viewsPage: 0 }));
   }, []);
 
   // Queries
@@ -125,7 +133,7 @@ const UnifiedSwitcherContent: React.FC<UnifiedSwitcherContentProps> = ({ variant
     order: filters.sortBy,
     search: filters.searchQuery,
     visibility: filters.visibility,
-    user_id: isMy ? currentUser?.id : (filters.author || undefined),
+    user_id: isMy ? currentUser?.id : filters.author || undefined,
     orgID: currentOrganization?.id,
     expandUser: true,
     metrics: true,
@@ -140,28 +148,44 @@ const UnifiedSwitcherContent: React.FC<UnifiedSwitcherContentProps> = ({ variant
     order: filters.sortBy,
     search: filters.searchQuery,
     visibility: filters.visibility,
-    user_id: isMy ? currentUser?.id : (filters.author || undefined),
+    user_id: isMy ? currentUser?.id : filters.author || undefined,
     shared: isShared ? true : undefined,
     infiniteScroll: isWorkspace,
     workspaceId: isWorkspace ? workspace?.id : undefined,
   };
 
   // Select query hooks
-  const { data: designsData, isLoading: designsLoading, isFetching: designsFetching, refetch: refetchDesigns } = 
-    isWorkspace 
-      ? useGetDesignsOfWorkspaceQuery(designQueryArgs, { skip: filters.type !== RESOURCE_TYPE.DESIGN || !workspace?.id })
-      : useGetUserDesignsQuery(designQueryArgs, { skip: filters.type !== RESOURCE_TYPE.DESIGN || (isMy && !currentUser?.id) });
+  const {
+    data: designsData,
+    isLoading: designsLoading,
+    isFetching: designsFetching,
+    refetch: refetchDesigns,
+  } = isWorkspace
+    ? useGetDesignsOfWorkspaceQuery(designQueryArgs, {
+        skip: filters.type !== RESOURCE_TYPE.DESIGN || !workspace?.id,
+      })
+    : useGetUserDesignsQuery(designQueryArgs, {
+        skip: filters.type !== RESOURCE_TYPE.DESIGN || (isMy && !currentUser?.id),
+      });
 
-  const { data: viewsData, isLoading: viewsLoading, isFetching: viewsFetching, refetch: refetchViews } = 
-    isWorkspace
-      ? useGetViewsOfWorkspaceQuery(viewQueryArgs, { skip: filters.type !== RESOURCE_TYPE.VIEW || !workspace?.id })
-      : useFetchViewsQuery(viewQueryArgs, { skip: filters.type !== RESOURCE_TYPE.VIEW || (isMy && !currentUser?.id) });
+  const {
+    data: viewsData,
+    isLoading: viewsLoading,
+    isFetching: viewsFetching,
+    refetch: refetchViews,
+  } = isWorkspace
+    ? useGetViewsOfWorkspaceQuery(viewQueryArgs, {
+        skip: filters.type !== RESOURCE_TYPE.VIEW || !workspace?.id,
+      })
+    : useFetchViewsQuery(viewQueryArgs, {
+        skip: filters.type !== RESOURCE_TYPE.VIEW || (isMy && !currentUser?.id),
+      });
 
   const refetch = useCallback(() => {
     if (filters.type === RESOURCE_TYPE.DESIGN) {
-      filters.designsPage > 0 ? setFilters(p => ({ ...p, designsPage: 0 })) : refetchDesigns();
+      filters.designsPage > 0 ? setFilters((p) => ({ ...p, designsPage: 0 })) : refetchDesigns();
     } else {
-      filters.viewsPage > 0 ? setFilters(p => ({ ...p, viewsPage: 0 })) : refetchViews();
+      filters.viewsPage > 0 ? setFilters((p) => ({ ...p, viewsPage: 0 })) : refetchViews();
     }
   }, [filters.type, filters.designsPage, filters.viewsPage, refetchDesigns, refetchViews]);
 
@@ -169,11 +193,11 @@ const UnifiedSwitcherContent: React.FC<UnifiedSwitcherContentProps> = ({ variant
   const [assignViewToWorkspace] = useAssignViewToWorkspaceMutation();
 
   const isDesign = filters.type === RESOURCE_TYPE.DESIGN;
-  const currentItems = isDesign ? (designsData?.patterns || designsData?.designs) : viewsData?.views;
+  const currentItems = isDesign ? designsData?.patterns || designsData?.designs : viewsData?.views;
   const totalCount = (isDesign ? designsData?.total_count : viewsData?.total_count) || 0;
-  const hasMore = isDesign 
-    ? (designsData?.total_count > (filters.designsPage + 1) * (designsData?.page_size || 10))
-    : (viewsData?.total_count > (viewsData?.page_size || 10) * (viewsData?.page + 1));
+  const hasMore = isDesign
+    ? designsData?.total_count > (filters.designsPage + 1) * (designsData?.page_size || 10)
+    : viewsData?.total_count > (viewsData?.page_size || 10) * (viewsData?.page + 1);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -194,7 +218,12 @@ const UnifiedSwitcherContent: React.FC<UnifiedSwitcherContentProps> = ({ variant
           <Grid2 size={{ xs: 6, md: 1.5 }}>
             <FormControl fullWidth>
               <InputLabel>Type</InputLabel>
-              <Select value={filters.type} label="Type" onChange={handleTypeChange} sx={{ '& .MuiSelect-select': { paddingBlock: '0.85rem' } }}>
+              <Select
+                value={filters.type}
+                label="Type"
+                onChange={handleTypeChange}
+                sx={{ '& .MuiSelect-select': { paddingBlock: '0.85rem' } }}
+              >
                 <MenuItem value={RESOURCE_TYPE.DESIGN}>Design</MenuItem>
                 {isViewVisible && <MenuItem value={RESOURCE_TYPE.VIEW}>View</MenuItem>}
               </Select>
@@ -216,7 +245,11 @@ const UnifiedSwitcherContent: React.FC<UnifiedSwitcherContentProps> = ({ variant
 
         {/* Visibility */}
         <Grid2 size={{ xs: 6, md: isMy ? 2 : 1.5 }}>
-          <VisibilitySelect visibility={filters.visibility} handleVisibilityChange={handleVisibilityChange} visibilityItems={visibilityItems} />
+          <VisibilitySelect
+            visibility={filters.visibility}
+            handleVisibilityChange={handleVisibilityChange}
+            visibilityItems={visibilityItems}
+          />
         </Grid2>
 
         {/* Import */}
@@ -238,8 +271,8 @@ const UnifiedSwitcherContent: React.FC<UnifiedSwitcherContentProps> = ({ variant
           handleShare={(c) => setShareModal({ open: true, content: c })}
         />
 
-        <TableListHeader 
-          isMultiSelectMode={true} 
+        <TableListHeader
+          isMultiSelectMode={true}
           content={currentItems}
           showOrganizationName={!isWorkspace}
           showWorkspaceName={!isWorkspace}
@@ -249,7 +282,9 @@ const UnifiedSwitcherContent: React.FC<UnifiedSwitcherContentProps> = ({ variant
           type={filters.type as any}
           items={currentItems}
           page={isDesign ? filters.designsPage : filters.viewsPage}
-          setPage={(p) => setFilters(prev => ({ ...prev, [isDesign ? 'designsPage' : 'viewsPage']: p }))}
+          setPage={(p) =>
+            setFilters((prev) => ({ ...prev, [isDesign ? 'designsPage' : 'viewsPage']: p }))
+          }
           isLoading={isDesign ? designsLoading : viewsLoading}
           isFetching={isDesign ? designsFetching : viewsFetching}
           hasMore={hasMore}
@@ -263,7 +298,7 @@ const UnifiedSwitcherContent: React.FC<UnifiedSwitcherContentProps> = ({ variant
       </Box>
 
       <PromptComponent ref={modalRef} />
-      
+
       <ExportDesignModal
         downloadModal={downloadModal}
         handleDownloadDialogClose={() => setDownloadModal({ open: false, content: null })}
@@ -289,9 +324,18 @@ const UnifiedSwitcherContent: React.FC<UnifiedSwitcherContentProps> = ({ variant
           WorkspaceModalContext={WorkspaceModalContext}
           assignDesignToWorkspace={assignDesignToWorkspace}
           assignViewToWorkspace={assignViewToWorkspace}
-          isCreateWorkspaceAllowed={CAN(keys.CREATE_WORKSPACE.action, keys.CREATE_WORKSPACE.subject)}
-          isMoveDesignAllowed={CAN(keys.ASSIGN_DESIGNS_TO_WORKSPACE.action, keys.ASSIGN_DESIGNS_TO_WORKSPACE.subject)}
-          isMoveViewAllowed={CAN(keys.ASSIGN_VIEWS_TO_WORKSPACE.action, keys.ASSIGN_VIEWS_TO_WORKSPACE.subject)}
+          isCreateWorkspaceAllowed={CAN(
+            keys.CREATE_WORKSPACE.action,
+            keys.CREATE_WORKSPACE.subject,
+          )}
+          isMoveDesignAllowed={CAN(
+            keys.ASSIGN_DESIGNS_TO_WORKSPACE.action,
+            keys.ASSIGN_DESIGNS_TO_WORKSPACE.subject,
+          )}
+          isMoveViewAllowed={CAN(
+            keys.ASSIGN_VIEWS_TO_WORKSPACE.action,
+            keys.ASSIGN_VIEWS_TO_WORKSPACE.subject,
+          )}
           currentOrgId={currentOrganization?.id}
           notify={notify}
           router={router}

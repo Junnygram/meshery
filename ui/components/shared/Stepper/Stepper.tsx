@@ -1,3 +1,4 @@
+import React from 'react';
 // @ts-ignore
 import { useStepper, CustomizedStepper, Box, styled } from '@sistent/sistent';
 

@@ -12,9 +12,93 @@ import {
   Checkbox,
   Typography,
   Modal,
+  MenuItem,
+  TextField,
+  Select,
 } from '@sistent/sistent';
 
 const DRAWER_WIDTH = 300;
+
+export const SlideInMenu = styled('div')(() => ({
+  width: 0,
+  overflow: 'hidden',
+  transition: 'width 2s ease-in' /* Set transition properties */,
+}));
+
+export const SlideInMenuOpen = styled('div')(({ open }) => ({
+  width: open ? 'auto' : '0',
+  overflow: 'visible',
+  transition: ' width 1s ease',
+}));
+
+export const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  textAlign: 'center',
+  fill: theme.palette.text.default,
+  '&.Mui-selected': {
+    backgroundColor: theme.palette.action.selected,
+    '&:hover': {
+      backgroundColor: theme.palette.action.selected + '!important',
+    },
+  },
+}));
+
+export const StyledSelect = styled(Select)(({ theme }) => ({
+  color: theme.palette.common.white,
+  backgroundColor: 'transparent',
+  '& .OrgClass': {
+    display: 'none',
+  },
+  '& svg': {
+    fill: theme.palette.background.constant.white,
+  },
+
+  [theme.breakpoints.down('md')]: {
+    '& .MuiInputBase-input, & span': {
+      minWidth: '8rem',
+      maxWidth: '8rem',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+    },
+  },
+
+  '@media (max-width: 400px)': {
+    '& .MuiInputBase-input,': {
+      maxWidth: 'unset',
+      minWidth: 'unset',
+      width: '100%',
+    },
+
+    '& span': {
+      minWidth: '8rem',
+      maxWidth: '10rem',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+    },
+  },
+}));
+
+export const StyledTextField = styled(TextField)(({ theme }) => ({
+  width: '40%',
+  '& .MuiInput-underline:after': {
+    borderBottomColor: theme.palette.background.brand.default,
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: theme.palette.background.brand.default,
+    },
+    '&:hover fieldset': {
+      borderColor: theme.palette.background.brand.default,
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: theme.palette.background.brand.default,
+    },
+  },
+}));
 
 export const DrawerHeader = styled('div')(({ theme, open }) => ({
   display: 'flex',

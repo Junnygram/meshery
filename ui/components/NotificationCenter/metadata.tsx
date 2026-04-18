@@ -1,9 +1,13 @@
 // @ts-nocheck
 import React from 'react';
-import { FormatStructuredData, SectionBody, reorderObjectProperties } from '../DataFormatter';
-import { isEmptyAtAllDepths } from '../../utils/objects';
+import {
+  FormatStructuredData,
+  SectionBody,
+  reorderObjectProperties,
+} from '@/components/DataFormatter';
+import { isEmptyAtAllDepths } from '@/utils/objects';
 import { canTruncateDescription } from './notification';
-import { DeploymentSummaryFormatter } from '../DesignLifeCycle/DeploymentSummary';
+import { DeploymentSummaryFormatter } from '@/components/designs/lifecycle/DeploymentSummary';
 import { EVENT_TYPE, eventDetailFormatterKey } from './constants';
 import { TitleLink, DataToFileLink, EmptyState } from './formatters/common';
 import { ErrorMetadataFormatter } from './formatters/error';

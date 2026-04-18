@@ -2,9 +2,9 @@ import React from 'react';
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { CircularProgress } from '@sistent/sistent';
 import { RELATIONSHIPS } from '@/constants/navigator';
-import MinusSquare from '../../../assets/icons/MinusSquare';
-import PlusSquare from '../../../assets/icons/PlusSquare';
-import DotSquare from '../../../assets/icons/DotSquare';
+import MinusSquare from '@/assets/icons/MinusSquare';
+import PlusSquare from '@/assets/icons/PlusSquare';
+import DotSquare from '@/assets/icons/DotSquare';
 import StyledTreeItem from './StyledTreeItem';
 
 type RelationshipTreeProps = {

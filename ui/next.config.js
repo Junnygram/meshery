@@ -5,13 +5,16 @@ const isPlaygroundBuild = process.env.PLAYGROUND === 'true';
 
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    esmExternals: 'loose',
+  },
 
   env: {
     NEXT_PUBLIC_PLAYGROUND_BUILD: isPlaygroundBuild ? 'true' : 'false',
   },
 
   // Static export (replaces removed `next export` in Next.js 15)
-  output: 'export',
+  // output: 'export', // Disabled for dev proxy support
 
   typescript: {
     ignoreBuildErrors: false,
@@ -23,6 +26,10 @@ const nextConfig = {
     '@uiw/react-markdown-preview',
     '@uiw/react-codemirror',
     'billboard.js',
+    'react-dnd',
+    'dnd-core',
+    '@sistent/mui-datatables',
+    '@sistent/sistent'
   ],
 
   // SWC Compiler Configuration (SWC is the default in Next.js 15)
@@ -46,25 +53,25 @@ const nextConfig = {
     unoptimized: true,
   },
 
-  exportPathMap: function () {
-    return {
-      '/404': { page: '/404' },
-      '/configuration/filters': { page: '/configuration/filters' },
-      '/configuration/catalog': { page: '/configuration/catalog' },
-      '/configuration/designs': { page: '/configuration/designs' },
-      '/configuration/designs/configurator': { page: '/configuration/designs/configurator' },
-      '/extension/[...component]': { page: '/extension/[...component]' },
-      '/extensions': { page: '/extensions' },
-      '/': { page: '/' },
-      '/management/adapter': { page: '/management/adapter' },
-      '/management/environments': { page: '/management/environments' },
-      '/management/connections': { page: '/management/connections' },
-      '/management/workspaces': { page: '/management/workspaces' },
-      '/performance': { page: '/performance' },
-      '/performance/profiles': { page: '/performance/profiles' },
-      '/settings': { page: '/settings' },
-      '/user/preferences': { page: '/user/preferences' },
-    };
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://localhost:9081/api/:path*',
+      },
+      {
+        source: '/user/login',
+        destination: 'http://localhost:9081/user/login',
+      },
+      {
+        source: '/user/logout',
+        destination: 'http://localhost:9081/user/logout',
+      },
+      {
+        source: '/provider/:path*',
+        destination: 'http://localhost:9081/provider/:path*',
+      },
+    ];
   },
 
   webpack: (config) => {

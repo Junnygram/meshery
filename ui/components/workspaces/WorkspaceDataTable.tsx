@@ -28,7 +28,7 @@ import {
   ErrorBoundary,
 } from '@sistent/sistent';
 import { useEffect, useState } from 'react';
-import { iconSmall } from '../../css/icons.styles';
+import { iconSmall } from '@/css/icons.styles';
 import WorkSpaceContentDataTable from './WorkSpaceContentDataTable';
 import WorkspaceActionList from './WorkspaceActionList';
 import { useGetSelectedOrganization } from '@/rtk-query/user';

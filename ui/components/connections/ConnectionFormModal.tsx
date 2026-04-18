@@ -1,7 +1,7 @@
 import React from 'react';
-import Modal from '../shared/Modal/Modal';
+import Modal from '@/components/shared/Modal/Modal';
 import ConnectionIcon from '@/assets/icons/Connection';
-import ConnectionTable from '../../connections/ConnectionTable';
+import ConnectionTable from '@/components/connections/ConnectionTable';
 import { Box } from '@sistent/sistent';
 
 const ConnectionFormModal = ({

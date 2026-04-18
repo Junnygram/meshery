@@ -1,4 +1,4 @@
-import DashboardSwitcherIcon from '../../assets/icons/DashboardSwitcherIcon';
+import DashboardSwitcherIcon from '@/assets/icons/DashboardSwitcherIcon';
 import {
   Box,
   Button,
@@ -11,11 +11,11 @@ import {
   WorkspaceIcon,
 } from '@sistent/sistent';
 import React, { useState } from 'react';
-import { CMenuContainer } from '../Header.styles';
+import { CMenuContainer } from '@/components/Header.styles';
 import WorkspaceSwitcher from './WorkspaceSwitcher';
-import OrgOutlinedIcon from '../../assets/icons/OrgOutlinedIcon';
-import { iconLarge, iconXLarge } from '../../css/icons.styles';
-import { OrgMenu } from './SpaceSwitcher';
+import OrgOutlinedIcon from '@/assets/icons/OrgOutlinedIcon';
+import { iconLarge, iconXLarge } from '@/css/icons.styles';
+import { OrgMenu } from './OrgMenu';
 
 const MobileOrgWksSwither_ = ({ organization, router }) => {
   return (

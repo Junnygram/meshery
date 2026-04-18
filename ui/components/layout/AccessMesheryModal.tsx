@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  Typography,
-  Button,
-  styled,
-} from '@sistent/sistent';
+import { Typography, Button, styled } from '@sistent/sistent';
 import Modal from '../shared/Modal/Modal';
 
 const ImgWrapper = styled('div')({
@@ -53,13 +49,13 @@ export default function AccessMesheryModal(props) {
         <InsideImgWrapper width="50%" height="50%" />
       </ImgWrapper>
       <Typography gutterBottom>
-        Meshery Playground gives you hands-on experience with designing cloud native systems -
-        from your browser - using every CNCF project. Choose a{' '}
+        Meshery Playground gives you hands-on experience with designing cloud native systems - from
+        your browser - using every CNCF project. Choose a{' '}
         <a href="https://docs.meshery.io/guides/tutorials" style={{ color: '#00b39f' }}>
           Learning Path
         </a>{' '}
-        and work through labs as you visually and collaboratively learn-by-doing without having
-        to install a single thing.
+        and work through labs as you visually and collaboratively learn-by-doing without having to
+        install a single thing.
       </Typography>
       <Typography gutterBottom>
         To ensure that Meshery Playground remains a clean sandbox for all to use, many of

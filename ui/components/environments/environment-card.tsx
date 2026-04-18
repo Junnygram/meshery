@@ -1,11 +1,11 @@
 import React from 'react';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { Delete, Edit } from '@mui/icons-material';
-import { useGetEnvironmentConnectionsQuery } from '../../../rtk-query/environments';
+import { useGetEnvironmentConnectionsQuery } from '@/rtk-query/environments';
 import CAN from '@/utils/can';
 import { keys } from '@/utils/permission_constants';
 import { Grid2, useTheme, Box, IconButton } from '@sistent/sistent';
-import ResourceCard from '../shared/Card/ResourceCard';
+import ResourceCard from '@/components/shared/Card/ResourceCard';
 
 import {
   DateLabel,
@@ -71,7 +71,8 @@ const EnvironmentCard = ({
         ? !!environmentDetails.deleted_at.Valid
         : true;
 
-  const isFlippingDisabled = selectedEnvironments?.filter((id) => id == environmentDetails.id).length === 1;
+  const isFlippingDisabled =
+    selectedEnvironments?.filter((id) => id == environmentDetails.id).length === 1;
 
   return (
     <ResourceCard
@@ -144,16 +145,16 @@ const EnvironmentCard = ({
         </Grid2>
       }
       backHeaderStyle={{
-         background: 'linear-gradient(180deg, #007366 0%, #000 100%)',
-         color: 'white'
+        background: 'linear-gradient(180deg, #007366 0%, #000 100%)',
+        color: 'white',
       }}
       backContentStyle={{
-         background: 'linear-gradient(180deg, #007366 0%, #000 100%)',
-         color: 'white'
+        background: 'linear-gradient(180deg, #007366 0%, #000 100%)',
+        color: 'white',
       }}
       backFooterStyle={{
-         background: 'linear-gradient(180deg, #007366 0%, #000 100%)',
-         color: 'white'
+        background: 'linear-gradient(180deg, #007366 0%, #000 100%)',
+        color: 'white',
       }}
     >
       <Box sx={{ minHeight: '100px' }}>

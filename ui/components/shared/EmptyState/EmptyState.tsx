@@ -30,7 +30,15 @@ const EmptyState: React.FC<EmptyStateProps> = ({ message, icon, pointerLabel, ac
   return (
     <StyledEmptyStateRoot>
       {pointerLabel && (
-        <Box sx={{ display: 'flex', width: '100%', padding: '0 40px', mb: 5, justifyContent: 'flex-start' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            width: '100%',
+            padding: '0 40px',
+            mb: 5,
+            justifyContent: 'flex-start',
+          }}
+        >
           <CurvedArrowIcon />
           <Typography
             sx={{
@@ -49,12 +57,21 @@ const EmptyState: React.FC<EmptyStateProps> = ({ message, icon, pointerLabel, ac
         </Box>
       )}
       <Box sx={{ mt: pointerLabel ? 10 : 0 }}>
-        {icon && <Box mb={2} sx={{ opacity: 0.8 }}>{icon}</Box>}
+        {icon && (
+          <Box mb={2} sx={{ opacity: 0.8 }}>
+            {icon}
+          </Box>
+        )}
         <Typography variant="h5" sx={{ color: '#808080', fontWeight: 400 }}>
           {message}
         </Typography>
         {action && (
-          <Button variant="contained" color="primary" onClick={action.onClick} sx={{ mt: 3, borderRadius: '8px' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={action.onClick}
+            sx={{ mt: 3, borderRadius: '8px' }}
+          >
             {action.label}
           </Button>
         )}

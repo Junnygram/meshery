@@ -25,7 +25,12 @@ const FormModal: React.FC<FormModalProps> = ({
 }) => {
   return (
     <Modal {...props} closeModal={closeModal}>
-      <form onSubmit={(e) => { e.preventDefault(); onSubmit(e); }}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit(e);
+        }}
+      >
         {children}
         <ModalFooter>
           <ModalButtonSecondary onClick={onCancel || closeModal} disabled={submitting}>

@@ -15,14 +15,14 @@ import {
   Box,
 } from '@sistent/sistent';
 import { NoSsr } from '@sistent/sistent';
-import { StyledSelect } from './SpaceSwitcher';
-import { iconMedium } from '../../css/icons.styles';
-import { WorkspaceModalContext } from '../../utils/context/WorkspaceModalContextProvider';
+import { StyledSelect } from './styles';
+import { iconMedium } from '@/css/icons.styles';
+import { WorkspaceModalContext } from '@/utils/context/WorkspaceModalContextProvider';
 import {
   useGetSelectedOrganization,
   useGetSelectedWorkspace,
   useUpdateSelectedWorkspaceMutation,
-} from '../../rtk-query/user';
+} from '@/rtk-query/user';
 
 export const HoverMenuItem = styled(MenuItem)(({ theme }) => ({
   display: 'flex',

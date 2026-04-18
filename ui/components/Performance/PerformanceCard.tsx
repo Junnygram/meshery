@@ -8,15 +8,14 @@ import {
   Avatar,
   Button,
   useTheme,
-  Grid2,
   IconButton,
   Link,
   Table,
   TableCell,
   TableRow,
 } from '@sistent/sistent';
-import FlipCard from '../FlipCard';
 import PerformanceResults from './PerformanceResults';
+import ResourceCard from '../shared/Card/ResourceCard';
 import { MESHERY_CLOUD_PROD } from '../../constants/endpoints';
 import { iconMedium } from '../../css/icons.styles';
 import CAN from '@/utils/can';
