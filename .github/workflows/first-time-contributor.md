@@ -2,9 +2,10 @@
 name: First Time Contributor Welcome
 description: Greets first-time contributors with a personalized welcome, analyzes their PR, and provides tailored guidance.
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  pull_request_target:
+    types: [opened]
   roles: all
+if: github.repository == 'meshery/meshery' && github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
 
 permissions:
   contents: read
