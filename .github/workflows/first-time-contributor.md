@@ -64,7 +64,7 @@ Use the `github` tools to:
 - List the files changed in the PR.
 - Peek at the content of the changes to categorize them (e.g., UI, Backend, Documentation, CI/CD, etc.).
 
-### Step 2: Formulate a Personalized Welcome
+### Step 3: Formulate a Personalized Welcome
 
 Your message should include:
 - A warm greeting: "Welcome, @${{ github.actor }}! Thank you for your first contribution! 🎉"
@@ -77,13 +77,13 @@ Your message should include:
     - [Newcomers' Guide](https://meshery.io/community)
     - [Community Slack](https://slack.meshery.io/)
 
-### Step 3: Check for Sign-off (DCO)
+### Step 4: Check for Sign-off (DCO)
 
 Briefly check if the commits are signed (contain `Signed-off-by: Name <email>`).
 - If they are NOT signed, provide a gentle reminder with a link to instructions: [Commit Signing Guide](https://docs.meshery.io/project/contributing#general-contribution-flow).
 - If they ARE signed, thank them for following the DCO process.
 
-### Step 4: Include the Community Graphic
+### Step 5: Include the Community Graphic
 
 Include the following graphic in your comment:
 ```html
@@ -92,7 +92,7 @@ Include the following graphic in your comment:
 </p>
 ```
 
-### Step 5: Post the Comment and Label
+### Step 6: Post the Comment and Label
 
 1. Post the final message as a comment on the pull request using the `add-comment` safe output.
 2. Add the `first-time-contributor` label to the PR using the `add-labels` safe output.
