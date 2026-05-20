@@ -2,11 +2,13 @@
 .git
 .gitignore
 
-# Node modules (should be installed within Docker build stages)
-node_modules
-ui/node_modules
-provider-ui/node_modules
-install/docker-extension/ui/node_modules
+# Node modules and build caches (recursively ignored)
+**/node_modules
+**/node_modules/**
+**/.next
+**/.next/**
+**/out
+**/out/**
 
 # Build artifacts / Distributables
 build
