@@ -3,7 +3,7 @@
   "evaluationQuery": "edge_binding_permission_relationship",
   "kind": "edge",
   "metadata": {
-    "description": "",
+    "description": "Binds a Kubernetes ServiceAccount to an AWS IAM Role by patching the IRSA annotation (eks.amazonaws.com/role-arn) to grant AWS permission boundaries to pod containers.",
     "isAnnotation": false,
     "styles": {
       "primaryColor": "",

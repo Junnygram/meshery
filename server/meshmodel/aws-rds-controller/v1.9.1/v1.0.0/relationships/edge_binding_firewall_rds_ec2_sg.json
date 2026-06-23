@@ -3,7 +3,7 @@
   "evaluationQuery": "edge_binding_firewall_relationship",
   "kind": "edge",
   "metadata": {
-    "description": "",
+    "description": "Configures firewall rules for an RDS DBInstance by binding it to one or more EC2 Security Groups for network traffic access control.",
     "isAnnotation": false,
     "styles": {
       "primaryColor": "",
