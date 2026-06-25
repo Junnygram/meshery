@@ -1,9 +1,9 @@
 {
   "id": "00000000-0000-0000-0000-000000000000",
-  "evaluationQuery": "edge_binding_firewall_relationship",
+  "evaluationQuery": "edge_binding_permission_relationship",
   "kind": "edge",
   "metadata": {
-    "description": "Binds an EC2 LaunchTemplate to a SecurityGroup as a firewall rule. The LaunchTemplate's data.securityGroupIDs[0] field is populated with the SecurityGroup name to control traffic for instances launched from this template.",
+    "description": "Binds an S3 Bucket to an IAM Role for replication access authorization. The Bucket's replication.role field is populated with the IAM Role ARN to grant the S3 service permission to replicate objects on behalf of the bucket owner.",
     "isAnnotation": false,
     "styles": {
       "primaryColor": "",
@@ -15,9 +15,9 @@
     "displayName": "",
     "id": "00000000-0000-0000-0000-000000000000",
     "model": {
-      "version": "v1.15.1"
+      "version": "v1.6.1"
     },
-    "name": "aws-ec2-controller",
+    "name": "aws-s3-controller",
     "registrant": {
       "kind": ""
     },
@@ -30,7 +30,7 @@
         "from": [
           {
             "id": null,
-            "kind": "LaunchTemplate",
+            "kind": "Bucket",
             "match": {},
             "match_strategy_matrix": null,
             "model": {
@@ -39,7 +39,7 @@
               "model": {
                 "version": ""
               },
-              "name": "aws-ec2-controller",
+              "name": "aws-s3-controller",
               "registrant": {
                 "kind": "github"
               },
@@ -51,9 +51,8 @@
                 [
                   "configuration",
                   "spec",
-                  "data",
-                  "securityGroupIDs",
-                  "0"
+                  "replication",
+                  "role"
                 ]
               ]
             }
@@ -62,7 +61,7 @@
         "to": [
           {
             "id": null,
-            "kind": "SecurityGroup",
+            "kind": "Role",
             "match": {},
             "match_strategy_matrix": null,
             "model": {
@@ -71,7 +70,7 @@
               "model": {
                 "version": ""
               },
-              "name": "aws-ec2-controller",
+              "name": "aws-iam-controller",
               "registrant": {
                 "kind": "github"
               },
@@ -82,8 +81,9 @@
               "mutatorRef": [
                 [
                   "configuration",
-                  "metadata",
-                  "name"
+                  "status",
+                  "ackResourceMetadata",
+                  "arn"
                 ]
               ]
             }
@@ -96,7 +96,7 @@
       }
     }
   ],
-  "subType": "firewall",
+  "subType": "permission",
   "status": "enabled",
   "type": "binding",
   "version": "v1.0.0"
