@@ -1,0 +1,81 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "evaluationQuery": "",
+  "kind": "edge",
+  "metadata": {
+    "description": "Annotates the association between an AWS Internet Gateway and a VPC. The InternetGateway is attached to a VPC to enable internet access for public subnets.",
+    "isAnnotation": true,
+    "styles": {
+      "primaryColor": "",
+      "svgColor": "",
+      "svgWhite": ""
+    }
+  },
+  "model": {
+    "displayName": "",
+    "id": "00000000-0000-0000-0000-000000000000",
+    "model": {
+      "version": "v1.15.1"
+    },
+    "name": "aws-ec2-controller",
+    "registrant": {
+      "kind": ""
+    },
+    "version": ""
+  },
+  "schemaVersion": "relationships.meshery.io/v1beta2",
+  "selectors": [
+    {
+      "allow": {
+        "from": [
+          {
+            "id": null,
+            "kind": "InternetGateway",
+            "match": {},
+            "match_strategy_matrix": null,
+            "model": {
+              "displayName": "",
+              "id": "00000000-0000-0000-0000-000000000000",
+              "model": {
+                "version": ""
+              },
+              "name": "aws-ec2-controller",
+              "registrant": {
+                "kind": "github"
+              },
+              "version": ""
+            }
+          }
+        ],
+        "to": [
+          {
+            "id": null,
+            "kind": "VPC",
+            "match": {},
+            "match_strategy_matrix": null,
+            "model": {
+              "displayName": "",
+              "id": "00000000-0000-0000-0000-000000000000",
+              "model": {
+                "version": ""
+              },
+              "name": "aws-ec2-controller",
+              "registrant": {
+                "kind": "github"
+              },
+              "version": ""
+            }
+          }
+        ]
+      },
+      "deny": {
+        "from": [],
+        "to": []
+      }
+    }
+  ],
+  "subType": "network",
+  "status": "enabled",
+  "type": "non-binding",
+  "version": "v1.0.0"
+}
