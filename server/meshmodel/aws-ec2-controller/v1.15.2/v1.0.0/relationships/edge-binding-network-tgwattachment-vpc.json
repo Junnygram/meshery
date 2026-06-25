@@ -1,9 +1,9 @@
 {
   "id": "00000000-0000-0000-0000-000000000000",
-  "evaluationQuery": "",
+  "evaluationQuery": "edge_binding_network_relationship",
   "kind": "edge",
   "metadata": {
-    "description": "CloudFront Distribution to S3 Bucket origin permission. A CloudFront Distribution points to an S3 Bucket as an origin to serve assets. This relationship automatically configures the origin domain name in the Distribution's config using the S3 Bucket name.",
+    "description": "VPC to Transit Gateway VPC Attachment network binding. A TransitGatewayVPCAttachment references a specific VPC via its vpcID field, connecting that VPC to the transit gateway routing domain. This relationship completes the hub-and-spoke visualization in Kanvas.",
     "isAnnotation": false,
     "styles": {
       "primaryColor": "",
@@ -15,9 +15,9 @@
     "displayName": "",
     "id": "00000000-0000-0000-0000-000000000000",
     "model": {
-      "version": "v1.5.0"
+      "version": "v1.15.2"
     },
-    "name": "aws-cloudfront-controller",
+    "name": "aws-ec2-controller",
     "registrant": {
       "kind": ""
     },
@@ -30,7 +30,7 @@
         "from": [
           {
             "id": null,
-            "kind": "Distribution",
+            "kind": "TransitGatewayVPCAttachment",
             "match": {},
             "match_strategy_matrix": null,
             "model": {
@@ -39,7 +39,7 @@
               "model": {
                 "version": ""
               },
-              "name": "aws-cloudfront-controller",
+              "name": "aws-ec2-controller",
               "registrant": {
                 "kind": "github"
               },
@@ -51,11 +51,9 @@
                 [
                   "configuration",
                   "spec",
-                  "distributionConfig",
-                  "origins",
-                  "items",
-                  0,
-                  "domainName"
+                  "vpcRef",
+                  "from",
+                  "name"
                 ]
               ]
             }
@@ -64,7 +62,7 @@
         "to": [
           {
             "id": null,
-            "kind": "Bucket",
+            "kind": "VPC",
             "match": {},
             "match_strategy_matrix": null,
             "model": {
@@ -73,7 +71,7 @@
               "model": {
                 "version": ""
               },
-              "name": "aws-s3-controller",
+              "name": "aws-ec2-controller",
               "registrant": {
                 "kind": "github"
               },
@@ -98,7 +96,7 @@
       }
     }
   ],
-  "subType": "permission",
+  "subType": "network",
   "status": "enabled",
   "type": "binding",
   "version": "v1.0.0"
