@@ -3,7 +3,7 @@
   "evaluationQuery": "edge_binding_network_relationship",
   "kind": "edge",
   "metadata": {
-    "description": "Binds an EventBridge Rule to a Lambda Function as a target. The Rule's targets[0].arn field is populated with the Lambda Function name so that matching events invoke the function directly.",
+    "description": "Binds an SNS Topic to an SQS Queue via a Subscription. The Subscription's endpoint field is populated with the Queue name to configure SQS as a subscriber for messages published to the topic.",
     "isAnnotation": false,
     "styles": {
       "primaryColor": "",
@@ -15,9 +15,9 @@
     "displayName": "",
     "id": "00000000-0000-0000-0000-000000000000",
     "model": {
-      "version": "v1.3.1"
+      "version": "v1.5.3"
     },
-    "name": "aws-eventbridge-controller",
+    "name": "aws-sns-controller",
     "registrant": {
       "kind": ""
     },
@@ -30,7 +30,7 @@
         "from": [
           {
             "id": null,
-            "kind": "Rule",
+            "kind": "Topic",
             "match": {},
             "match_strategy_matrix": null,
             "model": {
@@ -39,7 +39,7 @@
               "model": {
                 "version": ""
               },
-              "name": "aws-eventbridge-controller",
+              "name": "aws-sns-controller",
               "registrant": {
                 "kind": "github"
               },
@@ -51,9 +51,9 @@
                 [
                   "configuration",
                   "spec",
-                  "targets",
+                  "subscriptions",
                   "0",
-                  "arn"
+                  "endpoint"
                 ]
               ]
             }
@@ -62,7 +62,7 @@
         "to": [
           {
             "id": null,
-            "kind": "Function",
+            "kind": "Queue",
             "match": {},
             "match_strategy_matrix": null,
             "model": {
@@ -71,7 +71,7 @@
               "model": {
                 "version": ""
               },
-              "name": "aws-lambda-controller",
+              "name": "aws-sqs-controller",
               "registrant": {
                 "kind": "github"
               },
